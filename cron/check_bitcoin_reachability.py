@@ -25,8 +25,8 @@ ALERT_MESSAGE = 'Alert: Bitcoin node not reachable'
 def checkIsReachable():
 	status = retrieveStatus()
 	success = status['success']
-		
-	if success
+
+	if success:
 		return
 	
 	sendEmail(json.dumps(status))
