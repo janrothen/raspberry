@@ -1,69 +1,79 @@
 #!/usr/bin/env python3
 
-# Checks if bitcoin is reachable from outside
+# Checks if crown master node is is receiving block rewards
 # Sends a notification email otherwise
 
 import sys, traceback
+import json
 
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.firefox.options import Options
-
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dateutil import parser
 
 from utils import email
 from utils.config import config
+from utils.apicall import perform_request
 
 ALERT_MSG_SUBJECT = config().get('crown.block_rewards', 'alert_msg_subject')
 ALERT_MSG = config().get('crown.block_rewards', 'alert_msg')
 ADDRESS = config().get('crown.block_rewards', 'address')
-BLOCK_EXPLORER_URL = config().get('crown.block_rewards', 'block_explorer_url')
-XPATH_TO_LAST_TRX_DATE = config().get('crown.block_rewards', 'xpath_to_last_trx_date')
+SERVICE_ENDPOINT = config().get('crown.block_rewards', 'service_endpoint')
+SERVICE_API_KEY = config().get('crown.block_rewards', 'service_api_key')
 THRESHOLD_DAYS = config().getint('crown.block_rewards', 'threshold_days')
+ADDR_TO = config().get('email', 'addr_to')
 
 def check_is_receiving_rewards():
 	success = False
-	date = None
-	msg = None
+	msg = ''
+
 	try:
-		date = fetch_date_of_last_trx()
+		data = fetch_data()
+
+		date = date_of_last_reward(data)
 		if is_receiving_rewards(date):
-			print('receving')
 			success = True
-		else:
-			days = abs((datetime.today() - date).days)
-			msg = ALERT_MSG.format(days=days, date=date)
-	except NoSuchElementException as e:
+
+		days = days_since_last_reward(date)
+		balance = current_balance(data)
+
+		msg = ALERT_MSG.format(
+			days=days,
+			date=date,
+			balance=balance)
+	except Exception as e:
 		msg = str(e)
 
 	if success:
 		return
 
-	email.send_email(ALERT_MSG_SUBJECT, msg)
+	email.send_email(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 	
-def fetch_date_of_last_trx():
-	options = Options()
-	options.set_headless(headless=True)
-	driver = webdriver.Firefox(firefox_options=options, executable_path='/usr/local/bin/geckodriver')
+def fetch_data():
+	data = {}
+	url = '{endpoint}?q=multiaddr&key={key}&active={address}'.format(
+		endpoint=SERVICE_ENDPOINT,
+		key=SERVICE_API_KEY,
+		address=ADDRESS)
+	result = perform_request('GET', url)
+	if result:
+		data = json.loads(result)
+	return data
 
-	url_assembled = BLOCK_EXPLORER_URL.format(address=ADDRESS)
-	driver.get(url_assembled)
+def date_of_last_reward(data):
+	date = data['txs'][0]['time_utc']
+	return parser.parse(date)
 
-	element = driver.find_element_by_xpath(XPATH_TO_LAST_TRX_DATE)
-	date_string = element.get_attribute('innerHTML')
-	date = parse_date(date_string)
-	return date
+def current_balance(data):
+	balance = data['addresses'][0]['final_balance']
+	return str(balance/100000000)
 
 def is_receiving_rewards(date_of_last_trx):
-	treshold = datetime.today() - timedelta(days=THRESHOLD_DAYS)
+	now = datetime.now(timezone.utc)
+	treshold = now - timedelta(days=THRESHOLD_DAYS)
 	return date_of_last_trx > treshold
 	
-def parse_date(string):
-	#hacky, 18-07-27 13:08:13 is returned instead of 2018-07-27 13:08:13
-	#date_string = '20' + string 
-	date = parser.parse(string)
-	return date
+def days_since_last_reward(date_of_last_trx):
+	now = datetime.now(timezone.utc)
+	return abs((now - date_of_last_trx).days)
 
 def run():
 	try:

@@ -7,16 +7,15 @@ from email.mime.text import MIMEText
 
 from utils.config import config
 
-ADDR_TO = config().get('email', 'addr_to')
 ADDR_FROM = config().get('email', 'addr_from')
 SMTP_ENDPOINT = config().get('email', 'smtp_endpoint')
 SMTP_PORT = config().get('email', 'smtp_port')
 PWD = config().get('email', 'pwd')
 
-def send_email(subject, message):
+def send_email(subject, message, addr_to):
 	msg = MIMEMultipart()
-	msg['From'] = ADDR_TO
-	msg['To'] = ADDR_FROM
+	msg['To'] = addr_to
+	msg['From'] = ADDR_FROM
 	msg['Subject'] = subject
 	msg.attach(MIMEText(message,_subtype='plain'))
 
@@ -25,5 +24,5 @@ def send_email(subject, message):
 	server.starttls()
 	server.login(ADDR_FROM, PWD)
 	text = msg.as_string()
-	server.sendmail(ADDR_FROM, ADDR_TO, text)
+	server.sendmail(ADDR_FROM, addr_to, text)
 	server.quit()
