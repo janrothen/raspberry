@@ -7,6 +7,7 @@ import sys, traceback
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.firefox.options import Options
 
 from datetime import datetime, timedelta
 from dateutil import parser
@@ -35,8 +36,6 @@ def check_is_receiving_rewards():
 			msg = ALERT_MSG.format(days=days, date=date)
 	except NoSuchElementException as e:
 		msg = str(e)
-	except Exception as e:
-		msg = str(e)
 
 	if success:
 		return
@@ -44,12 +43,15 @@ def check_is_receiving_rewards():
 	email.send_email(ALERT_MSG_SUBJECT, msg)
 	
 def fetch_date_of_last_trx():
-	driver = webdriver.PhantomJS()
+	options = Options()
+	options.set_headless(headless=True)
+	driver = webdriver.Firefox(firefox_options=options, executable_path='/usr/local/bin/geckodriver')
+
 	url_assembled = BLOCK_EXPLORER_URL.format(address=ADDRESS)
 	driver.get(url_assembled)
 
 	element = driver.find_element_by_xpath(XPATH_TO_LAST_TRX_DATE)
-	date_string = element.get_attribute("innerHTML")
+	date_string = element.get_attribute('innerHTML')
 	date = parse_date(date_string)
 	return date
 
@@ -59,8 +61,8 @@ def is_receiving_rewards(date_of_last_trx):
 	
 def parse_date(string):
 	#hacky, 18-07-27 13:08:13 is returned instead of 2018-07-27 13:08:13
-	date_string = '20' + string 
-	date = parser.parse(date_string)
+	#date_string = '20' + string 
+	date = parser.parse(string)
 	return date
 
 def run():
