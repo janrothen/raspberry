@@ -22,30 +22,32 @@ THRESHOLD_DAYS = config().getint('crown.block_rewards', 'threshold_days')
 ADDR_TO = config().get('email', 'addr_to')
 
 def check_is_receiving_rewards():
-	msg = ''
+	msg = None
+	mapped = {}
 
 	try:
 		data = fetch_data()
-
-		date = date_of_last_reward(data)
-		if is_receiving_rewards(date):
-			return
-
-		days = days_since_last_reward(date)
-		balance = current_balance(data)
-
-		msg = ALERT_MSG.format(
-			days=days,
-			date=date,
-			balance=balance)
+		mapped = map_data(data)
 	except Exception as e:
 		msg = str(e)
+	
+	date = mapped['date']
+	if is_receiving_rewards(date):
+		return
+
+	days = days_since_last_reward(date)
+	balance = mapped['balance']
+	msg = ALERT_MSG.format(
+		days=days,
+		date=date,
+		balance=balance)	
 
 	email.send_email(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 	
 def fetch_data():
 	data = {}
-	url = '{endpoint}?q=multiaddr&key={key}&active={address}'.format(
+	url = '{endpoint}?q=multiaddr&key={key}&active={address}'
+	url = url.format(
 		endpoint=SERVICE_ENDPOINT,
 		key=SERVICE_API_KEY,
 		address=ADDRESS)
@@ -54,22 +56,26 @@ def fetch_data():
 		data = json.loads(result)
 	return data
 
-def date_of_last_reward(data):
+def map_data(data):
+	mapped = {}
+	mapped['date'] = map_date_of_last_reward(data)
+	mapped['balance'] = map_balance(data)
+	return mapped
+
+def map_date_of_last_reward(data):
 	date = data['txs'][0]['time_utc']
 	return parser.parse(date)
 
-def current_balance(data):
+def map_balance(data):
 	balance = data['addresses'][0]['final_balance']
 	return str(balance/100000000)
 
-def is_receiving_rewards(date_of_last_trx):
-	now = datetime.now(timezone.utc)
-	treshold = now - timedelta(days=THRESHOLD_DAYS)
-	return date_of_last_trx > treshold
+def is_receiving_rewards(date):
+	return days_since_last_reward(date) < THRESHOLD_DAYS
 	
-def days_since_last_reward(date_of_last_trx):
+def days_since_last_reward(date):
 	now = datetime.now(timezone.utc)
-	return abs((now - date_of_last_trx).days)
+	return abs((now - date).days)
 
 def run():
 	try:
