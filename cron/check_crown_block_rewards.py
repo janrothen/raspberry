@@ -22,7 +22,6 @@ THRESHOLD_DAYS = config().getint('crown.block_rewards', 'threshold_days')
 ADDR_TO = config().get('email', 'addr_to')
 
 def check_is_receiving_rewards():
-	success = False
 	msg = ''
 
 	try:
@@ -30,7 +29,7 @@ def check_is_receiving_rewards():
 
 		date = date_of_last_reward(data)
 		if is_receiving_rewards(date):
-			success = True
+			return
 
 		days = days_since_last_reward(date)
 		balance = current_balance(data)
@@ -41,9 +40,6 @@ def check_is_receiving_rewards():
 			balance=balance)
 	except Exception as e:
 		msg = str(e)
-
-	if success:
-		return
 
 	email.send_email(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 	
