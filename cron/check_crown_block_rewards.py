@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Checks if crown master node is is receiving block rewards
+# Checks if crown master node is receiving block rewards
 # Sends a notification email otherwise
 
 import sys, traceback

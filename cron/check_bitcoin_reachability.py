@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Checks if bitcoin is reachable from outside
+# Checks if bitcoin node is reachable from outside
 # Sends a notification email otherwise
 
 import sys, traceback
