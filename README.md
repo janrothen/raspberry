@@ -4,7 +4,7 @@ Cryptocurrency related scripts for my Raspberry Pi 3
 
 ## Getting Started
 
-### check_bitcoin_reachability.py:
+### check_bitcoin_reachability.py
 Checks if bitcoin full node is reachable from outside  
 Sends an alert notification email otherwise  
 
@@ -12,7 +12,7 @@ Sends an alert notification email otherwise
 Checks if crown master node is receiving block rewards  
 Sends an alert notification email otherwise  
 
-### check_stellar_inflation_payments.py:
+### check_stellar_inflation_payments.py
 Checks if stellar lumens address is receiving inflation payments  
 Sends an alert notification email otherwise  
 
