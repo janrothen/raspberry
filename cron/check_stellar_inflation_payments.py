@@ -45,6 +45,7 @@ def check_is_receiving_payments():
 
 	days = days_since_last_payment(date)
 	balance = account['balance']
+	amount = '{0:0.6f}'.format(amount)
 	msg = ALERT_MSG.format(
 		days=days,
 		date=date,
