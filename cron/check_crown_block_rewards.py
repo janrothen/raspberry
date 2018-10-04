@@ -30,7 +30,7 @@ def check_is_receiving_rewards():
 		mapped = map_data(data)
 	except Exception as e:
 		msg = str(e)
-	
+
 	date = mapped['date']
 	if is_receiving_rewards(date):
 		return
@@ -40,10 +40,10 @@ def check_is_receiving_rewards():
 	msg = ALERT_MSG.format(
 		days=days,
 		date=date,
-		balance=balance)	
+		balance=balance)
 
 	email.send_email(ALERT_MSG_SUBJECT, msg, ADDR_TO)
-	
+
 def fetch_data():
 	data = {}
 	url = '{endpoint}?q=multiaddr&key={key}&active={address}'
@@ -72,7 +72,7 @@ def map_balance(data):
 
 def is_receiving_rewards(date):
 	return days_since_last_reward(date) < THRESHOLD_DAYS
-	
+
 def days_since_last_reward(date):
 	now = datetime.now(timezone.utc)
 	return abs((now - date).days)
