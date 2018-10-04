@@ -17,11 +17,16 @@ ADDR_TO = config().get('email', 'addr_to')
 
 def check_is_reachable():
 	status = retrieve_status()
-	success = status['success']
+
+	success = False
+	try:
+		success = status['success']
+	except KeyError:
+		pass
 
 	if success:
 		return
-	
+
 	email.send_email(ALERT_MSG_SUBJECT, json.dumps(status), ADDR_TO)
 
 def retrieve_status():
