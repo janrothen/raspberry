@@ -50,7 +50,7 @@ def check_is_receiving_payments():
 		days=days,
 		date=date,
 		amount=amount,
-		balance=balance)	
+		balance=balance)
 
 	email.send_email(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 

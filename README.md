@@ -19,6 +19,7 @@ Sends an alert notification email otherwise
 ## Prerequisites
 
 python3  
+sudo pip3 install configparser  
 sudo pip3 install python-dateutil  
 
 ## Installing
