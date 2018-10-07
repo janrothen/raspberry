@@ -3,12 +3,11 @@ Description=LED Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u led_timer.py
-WorkingDirectory=/home/pi/led
+ExecStart=/usr/bin/python3 -u led.py
+WorkingDirectory=/home/pi/raspberry/led
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=pi
 
 [Install]
 WantedBy=multi-user.target
