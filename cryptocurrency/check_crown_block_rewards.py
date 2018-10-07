@@ -9,9 +9,9 @@ import json
 from datetime import datetime, timedelta, timezone
 from dateutil import parser
 
-from utils import email
+from utils.Email import Email
+from utils.Request import Request
 from utils.config import config
-from utils.apicall import perform_request
 
 ALERT_MSG_SUBJECT = config().get('crown.block_rewards', 'alert_msg_subject')
 ALERT_MSG = config().get('crown.block_rewards', 'alert_msg')
@@ -25,8 +25,9 @@ def check_is_receiving_rewards():
 	msg = None
 	mapped = {}
 
+	request = Request()
 	try:
-		data = fetch_data()
+		data = fetch_data(request)
 		mapped = map_data(data)
 	except Exception as e:
 		msg = str(e)
@@ -42,16 +43,17 @@ def check_is_receiving_rewards():
 		date=date,
 		balance=balance)
 
-	email.send_email(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+	email = Email()
+	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 
-def fetch_data():
+def fetch_data(request):
 	data = {}
 	url = '{endpoint}?q=multiaddr&key={key}&active={address}'
 	url = url.format(
 		endpoint=SERVICE_ENDPOINT,
 		key=SERVICE_API_KEY,
 		address=ADDRESS)
-	result = perform_request('GET', url)
+	result = request.get(url)
 	if result:
 		data = json.loads(result)
 	return data

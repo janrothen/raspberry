@@ -5,10 +5,10 @@
 
 import sys, traceback
 
-import requests
 import json
 
-from utils import email
+from utils.Email import Email
+from utils.Request import Request
 from utils.config import config
 
 ALERT_MSG_SUBJECT = config().get('bitcoin.reachability', 'alert_msg_subject')
@@ -16,22 +16,31 @@ SERVICE_ENDPOINT = config().get('bitcoin.reachability', 'service_endpoint')
 ADDR_TO = config().get('email', 'addr_to')
 
 def check_is_reachable():
-	status = retrieve_status()
-
+	status = None
 	success = False
+	msg = None
+	
 	try:
+		request = Request()
+		status = retrieve_status(request)
 		success = status['success']
+	except ConnectionError as e:
+		msg = str(e)
 	except KeyError:
-		pass
+		msg = json.dump(status)
 
 	if success:
 		return
 
-	email.send_email(ALERT_MSG_SUBJECT, json.dumps(status), ADDR_TO)
+	email = Email()
+	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 
-def retrieve_status():
-	r = requests.get(SERVICE_ENDPOINT)
-	return r.json()
+def retrieve_status(request):
+	data = {}
+	result = request.get(SERVICE_ENDPOINT)
+	if result:
+		data = json.loads(result)
+	return data
 
 def run():
 	try:

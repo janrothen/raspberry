@@ -9,9 +9,9 @@ import json
 from datetime import datetime, timedelta, timezone
 from dateutil import parser
 
-from utils import email
+from utils.Email import Email
+from utils.Request import Request
 from utils.config import config
-from utils.apicall import perform_request
 
 ALERT_MSG_SUBJECT = config().get('stellar.inflation_payments', 'alert_msg_subject')
 ALERT_MSG = config().get('stellar.inflation_payments', 'alert_msg')
@@ -26,14 +26,15 @@ def check_is_receiving_payments():
 	payment = {}
 	account = {}
 
+	request = Request()
 	try:
-		data = fetch_last_payment()
+		data = fetch_last_payment(request)
 		payment = map_payment(data)
 	except Exception as e:
 		msg += str(e)
 
 	try:
-		data = fetch_account()
+		data = fetch_account(request)
 		account = map_account(data)
 	except Exception as e:
 		msg += str(e)
@@ -52,20 +53,21 @@ def check_is_receiving_payments():
 		amount=amount,
 		balance=balance)
 
-	email.send_email(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+	email = Email()
+	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 
-def fetch_last_payment():
+def fetch_last_payment(request):
 	data = {}
 	url = url_last_payment(ADDRESS)
-	result = perform_request('GET', url)
+	result = request.get(url)
 	if result:
 		data = json.loads(result)
 	return data
 
-def fetch_account():
+def fetch_account(request):
 	data = {}
 	url = url_account(ADDRESS)
-	result = perform_request('GET', url)
+	result = request.get(url)
 	if result:
 		data = json.loads(result)
 	return data

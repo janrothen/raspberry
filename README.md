@@ -1,8 +1,8 @@
 # Raspberry Stuff
 
-Cryptocurrency related scripts for my Raspberry Pi 3
+Scripts for my Raspberries
 
-## Getting Started
+## Cryptocurrency
 
 ### check_bitcoin_reachability.py
 Checks if bitcoin full node is reachable from outside  
@@ -19,8 +19,7 @@ Sends an alert notification email otherwise
 ## Prerequisites
 
 python3  
-sudo pip3 install configparser  
-sudo pip3 install python-dateutil  
+check requirements.txt in subdirectories for package versions  
 
 ## Installing
 
