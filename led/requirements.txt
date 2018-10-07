@@ -1,6 +1,2 @@
 configparser==3.5.0
 python-dateutil==2.7.3
-
-create symlink to utils in this directory, or imports wont work
-
-copy led.service to /etc/systemd/system
