@@ -27,6 +27,6 @@ Configure the scripts: config.conf
 Add it to cron:  
 crontab -e  
   
-0 17 * * *  /home/pi/cron/check_bitcoin_reachability.py  
-0 17 * * *  /home/pi/cron/check_crown_block_rewards.py  
-0 17 * * *  /home/pi/cron/check_stellar_inflation_payments.py  
+0 17 * * *  /home/pi/raspberry/cryptocurrency/check_bitcoin_reachability.py  
+0 17 * * *  /home/pi/raspberry/cryptocurrency/check_crown_block_rewards.py  
+0 17 * * *  /home/pi/raspberry/cryptocurrency/check_stellar_inflation_payments.py  
