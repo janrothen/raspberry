@@ -1,8 +1,8 @@
 # LED
 
-### check_bitcoin_reachability.py
-Checks if bitcoin full node is reachable from outside  
-
+### led.py
+Switches LED bar on according the time of the day and
+with the color specified in config.conf
 
 ## Prerequisites
 
