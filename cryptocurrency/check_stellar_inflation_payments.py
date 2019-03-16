@@ -30,36 +30,41 @@ class Payment(object):
 
 
 def check_is_receiving_payments():
+	payment = None
 	msg = ''
-	payment = Payment()
-	account = None
 
 	try:
 		payment = get_last_inflation_payment()
 	except Exception as e:
 		msg += str(e)
 
-	date = payment.date
-	amount = payment.amount
-	if is_receiving_sufficient_payments(date, amount):
-		return
+	date = None
+	days = 0
+	amount = 0
+	if (payment):
+		date = payment.date
+		days = days_since_last_payment(date)
+		amount = '{0:0.6f}'.format(payment.amount)
+		if is_receiving_sufficient_payments(date, amount):
+			return
 
-	try:
-		account = get_account()
-	except Exception as e:
-		msg += str(e)
-
-	days = days_since_last_payment(date)
-	balance = account['balance']
-	amount = '{0:0.6f}'.format(amount)
-	msg = ALERT_MSG.format(
-		days=days,
-		date=date,
-		amount=amount,
-		balance=balance)
+	balance = get_account_balance()
+	if (payment):
+		msg += ALERT_MSG.format(
+			days=days, date=date, amount=amount, balance=balance)
+	else:
+		msg += 'No payments received so far. Balance: {balance}'.format(
+			balance=balance)
 
 	email = Email()
 	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+
+def get_account_balance():
+	try:
+		account = get_account()
+		return account['balance']
+	except Exception as e:
+		return 0
 
 def get_last_inflation_payment():
 	request = Request()
@@ -87,8 +92,9 @@ def map_payments(data):
 
 	payments = []
 	for trx in transactions:
-		payment = map_payment(trx)
-		payments.append(payment)
+		if (trx['type'] == 'payment'):
+			payment = map_payment(trx)
+			payments.append(payment)
 
 	return payments
 
