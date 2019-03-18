@@ -73,12 +73,6 @@ def map_payment(data):
 	p.addr_from = data['from']
 	return p
 
-def is_sufficient(payment):
-	if (not payment):
-		return False
-
-	return payment.amount > THRESHOLD_AMOUNT and days_since_last_payment(payment.date) < THRESHOLD_DAYS
-
 def last_inflation_payment(payments):
 	filtered = list(filter(lambda p: p.addr_from == INFLATION_DESTINATION, payments))
 	if (filtered):
@@ -86,8 +80,11 @@ def last_inflation_payment(payments):
 		return filtered[0]
 	return None
 
-def is_inflation_payment(payment):
-	return 
+def is_sufficient(payment):
+	if (not payment):
+		return False
+
+	return payment.amount > THRESHOLD_AMOUNT and days_since_last_payment(payment.date) < THRESHOLD_DAYS
 
 def get_account_balance():
 	try:
