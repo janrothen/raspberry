@@ -29,11 +29,9 @@ def check_is_reachable():
 	except KeyError:
 		msg = json.dump(status)
 
-	if success:
-		return
-
-	email = Email()
-	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+	if not success:
+		email = Email()
+		email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
 
 def retrieve_status(request):
 	data = {}
