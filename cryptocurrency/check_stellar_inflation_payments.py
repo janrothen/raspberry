@@ -39,36 +39,10 @@ def check_is_receiving_payments():
 	except Exception as e:
 		email_msg += str(e)
 
-	if is_sufficient(payment):
-		# No need to alert -> Abort
-		return
-
-	email_msg += assemble_msg(payment)
-
-	email = Email()
-	email.send(ALERT_MSG_SUBJECT, email_msg, ADDR_TO)
-
-def assemble_msg(payment):
-	balance = get_account_balance()
-
-	if (payment):
-		days = days_since_last_payment(payment.date)
-		amount = '{0:0.6f}'.format(payment.amount)
-		return ALERT_MSG_INSUFFICIENT.format(
-			days=days,
-			date=payment.date,
-			amount=amount,
-			balance=balance)
-
-	return ALERT_MSG_NONE.format(
-			balance=balance)
-
-def get_account_balance():
-	try:
-		account = get_account()
-		return account['balance']
-	except Exception as e:
-		return 0
+	if not is_sufficient(payment):
+		email_msg += assemble_msg(payment)
+		email = Email()
+		email.send(ALERT_MSG_SUBJECT, email_msg, ADDR_TO)
 
 def get_last_inflation_payment():
 	request = Request()
@@ -136,6 +110,28 @@ def is_sufficient(payment):
 def days_since_last_payment(date):
 	now = datetime.now(timezone.utc)
 	return abs((now - date).days)
+
+def assemble_msg(payment):
+	balance = get_account_balance()
+
+	if (payment):
+		days = days_since_last_payment(payment.date)
+		amount = '{0:0.6f}'.format(payment.amount)
+		return ALERT_MSG_INSUFFICIENT.format(
+			days=days,
+			date=payment.date,
+			amount=amount,
+			balance=balance)
+
+	return ALERT_MSG_NONE.format(
+			balance=balance)
+
+def get_account_balance():
+	try:
+		account = get_account()
+		return account['balance']
+	except Exception as e:
+		return 0
 
 def url_last_payments(address):
 	url = '{endpoint}/accounts/{address}/payments?limit=10&order=desc'
