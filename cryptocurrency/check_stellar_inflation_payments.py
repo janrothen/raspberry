@@ -14,7 +14,8 @@ from utils.Request import Request
 from utils.config import config
 
 ALERT_MSG_SUBJECT = config().get('stellar.inflation_payments', 'alert_msg_subject')
-ALERT_MSG = config().get('stellar.inflation_payments', 'alert_msg')
+ALERT_MSG_INSUFFICIENT = config().get('stellar.inflation_payments', 'alert_msg_insufficient')
+ALERT_MSG_NONE = config().get('stellar.inflation_payments', 'alert_msg_none')
 SERVICE_ENDPOINT = config().get('stellar.inflation_payments', 'service_endpoint')
 ADDRESS = config().get('stellar.inflation_payments', 'address')
 INFLATION_DESTINATION = config().get('stellar.inflation_payments', 'inflation_dest')
@@ -31,33 +32,36 @@ class Payment(object):
 
 def check_is_receiving_payments():
 	payment = None
-	msg = ''
+	email_msg = ''
 
 	try:
 		payment = get_last_inflation_payment()
 	except Exception as e:
-		msg += str(e)
+		email_msg += str(e)
 
-	date = None
-	days = 0
-	amount = 0
-	if (payment):
-		date = payment.date
-		days = days_since_last_payment(date)
-		amount = '{0:0.6f}'.format(payment.amount)
-		if is_receiving_sufficient_payments(date, amount):
-			return
+	if is_sufficient(payment):
+		# No need to alert -> Abort
+		return
 
-	balance = get_account_balance()
-	if (payment):
-		msg += ALERT_MSG.format(
-			days=days, date=date, amount=amount, balance=balance)
-	else:
-		msg += 'No payments received so far. Balance: {balance}'.format(
-			balance=balance)
+	email_msg += assemble_msg(payment)
 
 	email = Email()
-	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+	email.send(ALERT_MSG_SUBJECT, email_msg, ADDR_TO)
+
+def assemble_msg(payment):
+	balance = get_account_balance()
+
+	if (payment):
+		days = days_since_last_payment(payment.date)
+		amount = '{0:0.6f}'.format(payment.amount)
+		return ALERT_MSG_INSUFFICIENT.format(
+			days=days,
+			date=payment.date,
+			amount=amount,
+			balance=balance)
+
+	return ALERT_MSG_NONE.format(
+			balance=balance)
 
 def get_account_balance():
 	try:
@@ -123,8 +127,11 @@ def map_account(data):
 	mapped['balance'] = data['balances'][0]['balance']
 	return mapped
 
-def is_receiving_sufficient_payments(date, amount):
-	return amount > THRESHOLD_AMOUNT and days_since_last_payment(date) < THRESHOLD_DAYS
+def is_sufficient(payment):
+	if (not payment):
+		return False
+
+	return payment.amount > THRESHOLD_AMOUNT and days_since_last_payment(payment.date) < THRESHOLD_DAYS
 	
 def days_since_last_payment(date):
 	now = datetime.now(timezone.utc)
