@@ -81,7 +81,12 @@ def last_inflation_payment(payments):
 	return None
 
 def is_sufficient(payment):
-	return payment.amount > THRESHOLD_AMOUNT and days_since_last_payment(payment.date) < THRESHOLD_DAYS
+	return (THRESHOLD_AMOUNT < payment.amount and 
+		THRESHOLD_DAYS > days_elapsed(payment.date))
+
+def days_elapsed(date):
+	now = datetime.now(timezone.utc)
+	return abs((now - date).days)
 
 def get_account_balance():
 	try:
@@ -108,10 +113,6 @@ def map_account(data):
 	mapped = {}
 	mapped['balance'] = data['balances'][0]['balance']
 	return mapped
-
-def days_since_last_payment(date):
-	now = datetime.now(timezone.utc)
-	return abs((now - date).days)
 
 def assemble_msg(payment):
 	balance = get_account_balance()
