@@ -15,11 +15,18 @@ ALERT_MSG_SUBJECT = config().get('bitcoin.reachability', 'alert_msg_subject')
 SERVICE_ENDPOINT = config().get('bitcoin.reachability', 'service_endpoint')
 ADDR_TO = config().get('email', 'addr_to')
 
-def check_is_reachable():
+def check():
+	if is_reachable():
+		return
+
+	email = Email()
+	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+
+def is_reachable():
 	status = None
 	success = False
 	msg = None
-	
+
 	try:
 		request = Request()
 		status = retrieve_status(request)
@@ -29,9 +36,7 @@ def check_is_reachable():
 	except KeyError:
 		msg = json.dump(status)
 
-	if not success:
-		email = Email()
-		email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+	return success
 
 def retrieve_status(request):
 	data = {}
@@ -42,7 +47,7 @@ def retrieve_status(request):
 
 def run():
 	try:
-		check_is_reachable()
+		check()
 	except:
 		traceback.print_exc(file=sys.stdout)
 		sys.exit(0)
