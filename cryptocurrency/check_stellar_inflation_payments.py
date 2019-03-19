@@ -25,14 +25,14 @@ ADDR_TO = config().get('email', 'addr_to')
 
 class Payment(object):
 	def __init__(self):
-		self._date = None
 		self._amount = 0
+		self._date = None
 		self._from = None
 
-def check_payment():
+def check():
 	payment = get_last_inflation_payment()
 
-	if not is_sufficient(payment):
+	if payment and not is_sufficient(payment):
 		email_msg = assemble_msg(payment)
 		email = Email()
 		email.send(ALERT_MSG_SUBJECT, email_msg, ADDR_TO)
@@ -56,13 +56,13 @@ def fetch_last_payments_data():
 	return data
 
 def map_payments(data):
-	transactions = data['_embedded']['records']
-
 	payments = []
-	for trx in transactions:
-		if (trx['type'] == 'payment'):
-			payment = map_payment(trx)
-			payments.append(payment)
+		
+	records = data['_embedded']['records']
+	payment_records = list(filter(lambda r: r['type'] == 'payment', records))
+	for record in payment_records:
+		payment = map_payment(record)
+		payments.append(payment)
 
 	return payments
 
@@ -74,16 +74,13 @@ def map_payment(data):
 	return p
 
 def last_inflation_payment(payments):
-	filtered = list(filter(lambda p: p.addr_from == INFLATION_DESTINATION, payments))
-	if (filtered):
-		filtered.sort(key=lambda p: p.date, reverse=False)
-		return filtered[0]
+	inflation_payments = list(filter(lambda p: p.addr_from == INFLATION_DESTINATION, payments))
+	if (inflation_payments):
+		inflation_payments.sort(key=lambda p: p.date, reverse=False)
+		return inflation_payments[0] # the latest
 	return None
 
 def is_sufficient(payment):
-	if (not payment):
-		return False
-
 	return payment.amount > THRESHOLD_AMOUNT and days_since_last_payment(payment.date) < THRESHOLD_DAYS
 
 def get_account_balance():
@@ -131,25 +128,21 @@ def assemble_msg(payment):
 	return ALERT_MSG_NONE.format(
 			balance=balance)
 
-# URLs
-def url_last_payments():
-	url = '{endpoint}/accounts/{address}/payments?limit={limit}&order=desc'
-	url = url.format(
-		endpoint=SERVICE_ENDPOINT,
-		address=ADDRESS,
-		limit=10) # increase if necessary
-	return url
-
 def url_account():
 	url = '{endpoint}/accounts/{address}'
-	url = url.format(
+	return url.format(
 		endpoint=SERVICE_ENDPOINT,
 		address=ADDRESS)
-	return url
+
+def url_last_payments():
+	url = '{account}/payments?limit={limit}&order=desc'
+	return url.format(
+		account=url_account(),
+		limit=10) # increase if necessary
 
 def run():
 	try:
-		check_payment()
+		check()
 	except:
 		traceback.print_exc(file=sys.stdout)
 		sys.exit(0)
