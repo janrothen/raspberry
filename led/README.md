@@ -24,10 +24,9 @@ wget http://abyz.co.uk/rpi/pigpio/pigpio.zip && unzip pigpio.zip && cd PIGPIO &&
 Copy led.service to /etc/systemd/system  
 
 File in /etc/cron.d to start/stops systemd service
-/etc/cron.d $ cat led
-
-15 19 * * * root /bin/systemctl start led 2>/tmp/error
+/etc/cron.d $ cat led  
+15 19 * * * root /bin/systemctl start led 2>/tmp/error  
 30 22 * * * root /bin/systemctl stop led 2>/tmp/error
 
-15 06 * * * root /bin/systemctl start led 2>/tmp/error
+15 06 * * * root /bin/systemctl start led 2>/tmp/error  
 30 08 * * * root /bin/systemctl stop led 2>/tmp/error
