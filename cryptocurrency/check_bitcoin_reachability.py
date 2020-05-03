@@ -7,25 +7,19 @@ import sys, traceback
 
 import json
 
-from utils.Email import Email
 from utils.Request import Request
 from utils.config import config
 
-ALERT_MSG_SUBJECT = config().get('bitcoin.reachability', 'alert_msg_subject')
 SERVICE_ENDPOINT = config().get('bitcoin.reachability', 'service_endpoint')
-ADDR_TO = config().get('email', 'addr_to')
+AWS_ENDPOINT = config().get('bitcoin.reachability', 'aws_endpoint')
 
 def check():
 	if is_reachable():
-		return
-
-	email = Email()
-	email.send(ALERT_MSG_SUBJECT, msg, ADDR_TO)
+		add_uptime_information_entry()
 
 def is_reachable():
 	status = None
 	success = False
-	msg = None
 
 	try:
 		request = Request()
@@ -33,8 +27,6 @@ def is_reachable():
 		success = status['success']
 	except ConnectionError as e:
 		msg = str(e)
-	except KeyError:
-		msg = json.dump(status)
 
 	return success
 
@@ -51,6 +43,18 @@ def run():
 	except:
 		traceback.print_exc(file=sys.stdout)
 		sys.exit(0)
+
+def add_uptime_information_entry():
+	data = {
+		'source': 'lasvegas'
+	}
+	
+	try:
+		request = Request()
+		result = request.post(AWS_ENDPOINT, data)
+		print(result)
+	except ConnectionError as e:
+		msg = str(e)
 
 if __name__ == '__main__':
 	run()
