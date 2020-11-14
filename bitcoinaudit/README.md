@@ -22,7 +22,7 @@ urllib3==1.25.11
 
 ## Installing
 
-Create symlink to utils in this directory, or imports wont work  
+Create symlink to utils in this directory, or imports won't work  
 Configure the scripts: config.conf  
 
 Add the script to cron:  
