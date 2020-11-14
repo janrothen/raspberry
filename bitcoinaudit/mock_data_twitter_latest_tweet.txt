@@ -1,7 +1,0 @@
-#Bitcoin block 656809
-
-Total supply: 18,542,371.44444435 BTC
-
-Increase since yesterday:
-+146 blocks
-+912.49998362 BTC
