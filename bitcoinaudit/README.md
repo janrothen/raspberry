@@ -22,8 +22,13 @@ urllib3==1.25.11
 
 ## Installing
 
+python3 -m venv venv
+
+pip install python-twitter
+pip install python-bitcoinrpc
+
 Create symlink to utils in this directory, or imports won't work  
-Configure the scripts: config.conf  
+Provide required configuration: config.conf  
 
 Add the script to cron:  
 crontab -e  
