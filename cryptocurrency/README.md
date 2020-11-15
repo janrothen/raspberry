@@ -12,7 +12,7 @@ python-dateutil==2.7.3
 ## Installing
 
 Create symlink to utils in this directory, or imports won't work  
-Configure the scripts: config.conf  
+Configure the scripts: `config.conf`
 
 Add cryptocurrency script to cron:
 ```
