@@ -6,4 +6,5 @@ class TwitterClient(object):
 		return file_object.read()
 
 	def tweet(self, msg):
-		print(msg)
+		msg = msg
+		#print(msg)
