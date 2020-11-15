@@ -16,7 +16,7 @@ Total supply: 18,542,940.19444435 BTC
 
 Increase since yesterday:
 +91 blocks
-+568.75 BTC
++568.75 BTC\
 """
 
 def test_tweet_creator():

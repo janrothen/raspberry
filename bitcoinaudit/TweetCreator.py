@@ -30,5 +30,5 @@ Total supply: {total} BTC
 
 Increase since yesterday:
 +{increase_blocks} blocks
-+{increase_total} BTC
++{increase_total} BTC\
 """
