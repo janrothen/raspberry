@@ -6,11 +6,11 @@ from TwitterClient import TwitterClient
 from TwitterBot import TwitterBot
 
 def run():
-	bitcoin_client = BitcoinClient()
-	twitter_client = TwitterClient()
+    bitcoin_client = BitcoinClient()
+    twitter_client = TwitterClient()
 
-	bot = TwitterBot(bitcoin_client, twitter_client)
-	bot.run()
+    bot = TwitterBot(bitcoin_client, twitter_client)
+    bot.run()
 
 if __name__ == '__main__':
-	run()
+    run()
