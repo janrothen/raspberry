@@ -31,7 +31,8 @@ Create symlink to utils in this directory, or imports won't work
 Provide required configuration: `config.conf` 
 
 Add the script to cron:  
-crontab -e  
 ```
+crontab -e  
+
 @daily /home/pi/raspberry/bitcoinaudit/run.py
 ```
