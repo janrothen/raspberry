@@ -6,4 +6,4 @@ class TwitterClient(object):
             return file_object.read().decode('utf-8')
 
     def tweet(self, msg):
-        print(msg)
+        do_nothing = msg
