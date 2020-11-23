@@ -8,18 +8,29 @@ RPC_USER = config().get('bitcoin.rpc', 'user')
 RPC_PASSWORD = config().get('bitcoin.rpc', 'password')
 RPC_TIMEOUT = int(config().get('bitcoin.rpc', 'timeout'))
 
+def lazy_property(fn):
+    '''Decorator that makes a property lazy-evaluated.
+    '''
+    attr_name = '_lazy_' + fn.__name__
+
+    @property
+    def _lazy_property(self):
+        if not hasattr(self, attr_name):
+            setattr(self, attr_name, fn(self))
+        return getattr(self, attr_name)
+    return _lazy_property
+
 class BitcoinClient(object):
 
-    @property
-    def gettxoutsetinfo(self):
-        try:
-            return self.value
-        except AttributeError:
-            self.value = self.get_connection().gettxoutsetinfo()
-            return self.value
+    @lazy_property
+    def get_cached_txoutsetinfo(self):
+        info = self.get_gettxoutsetinfo()
+        return info
 
-    @property
-    def getconnectioncount(self):
+    def get_gettxoutsetinfo(self):
+        return self.get_connection().gettxoutsetinfo()
+
+    def get_getconnectioncount(self):
         return self.get_connection().getconnectioncount()
 
     def get_connection(self):
@@ -27,10 +38,10 @@ class BitcoinClient(object):
         return AuthServiceProxy(connection_string, timeout=RPC_TIMEOUT)
 
     def get_block_height(self):
-        return BitcoinClient().gettxoutsetinfo['height']
+        return self.get_cached_txoutsetinfo['height']
     
     def get_total_amount(self):
-        return BitcoinClient().gettxoutsetinfo['total_amount']
+        return self.get_cached_txoutsetinfo['total_amount']
 
     def get_connection_count(self):
-        return BitcoinClient().getconnectioncount
+        return self.get_getconnectioncount()

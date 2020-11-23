@@ -48,6 +48,16 @@ def test_tweet_creator_formatting():
     actual = creator.total_increase_since_yesterday_formatted()
     assert_equals('956.2499727', actual)
 
+def test_tweet_creator_block_height():
+    creator = TweetCreator(0, Decimal('0'), 0, Decimal('0'))
+    actual = creator.block_height_increase_since_yesterday()
+    assert_equals(0, actual)
+    creator = TweetCreator(1, Decimal('12.5'), 0, Decimal('6.25'))
+    actual = creator.block_height_increase_since_yesterday()
+    assert_equals(1, actual)
+    actual = creator.total_increase_since_yesterday()
+    assert_equals(6.25, actual)
+
 def test_tweet_value_extractor():
     extractor = TweetValueExtractor(TWEET)
 
@@ -80,6 +90,7 @@ def assert_true(condition):
 def run_tests():
     test_tweet_creator()
     test_tweet_creator_formatting()
+    test_tweet_creator_block_height()
     test_tweet_value_extractor()
     test_twitter_bot()
 
