@@ -34,9 +34,9 @@ class TweetCreator(object):
         return """\
 #Bitcoin block {height}
 
-Total supply: {total} BTC
-
 Increase since yesterday:
 +{increase_blocks} blocks
-+{increase_total} BTC\
++{increase_total} BTC
+
+Total supply: {total} BTC\
 """

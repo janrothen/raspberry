@@ -6,11 +6,11 @@ from TwitterClient import TwitterClient
 TWEET = """\
 #Bitcoin block 656900
 
-Total supply: 18,542,940.19444435 BTC
-
 Increase since yesterday:
 +91 blocks
-+568.75 BTC\
++568.75 BTC
+
+Total supply: 18,542,940.19444435 BTC\
 """
 
 def test_bitcoin_client():

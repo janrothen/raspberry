@@ -12,11 +12,11 @@ from TwitterClientMock import TwitterClient
 TWEET = """\
 #Bitcoin block 657413
 
-Total supply: 18,546,158.94441705 BTC
-
 Increase since yesterday:
 +151 blocks
-+956.2499727 BTC\
++956.2499727 BTC
+
+Total supply: 18,546,158.94441705 BTC\
 """
 
 def test_tweet_creator():
