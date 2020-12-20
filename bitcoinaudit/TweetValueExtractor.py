@@ -6,11 +6,18 @@ class TweetValueExtractor(object):
         self.tweet = tweet
 
     def block_height(self):
-        block_height = self.extract_snippet_between('block', 'Total')
+        block_height = self.extract_snippet_between('block', 'Increase')
         return int(block_height)
 
     def total(self):
-        total = self.extract_snippet_between('supply', 'BTC')
+        s = re.search('supply', self.tweet)
+        s_index_end = s.end() + 1
+
+        btc_matches = re.finditer('BTC', self.tweet)
+        btc_positions = [match.start() for match in btc_matches]
+        btc_position_2 = btc_positions[1]
+
+        total = self.tweet[s_index_end:btc_position_2]
         total = total.replace(',', '')
         return Decimal(total)
 
@@ -20,5 +27,7 @@ class TweetValueExtractor(object):
 
         e = re.search(end, self.tweet)
         e_index_start = e.start() - 1
+
         result = self.tweet[s_index_end:e_index_start]
+
         return result.strip(' \t\n\r')

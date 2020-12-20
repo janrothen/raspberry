@@ -20,4 +20,4 @@ class TwitterClient(object):
         return list[0].text
 
     def tweet(self, msg):
-        status = self.api().PostUpdate(msg)
+        self.api().PostUpdate(msg)
