@@ -6,8 +6,9 @@ Get files
 ---------------------
 https://bitcoincore.org/en/download/
 
-curl https://bitcoincore.org/bin/bitcoin-core-0.18.0/bitcoin-0.18.0-arm-linux-gnueabihf.tar.gz --output bitcoin-0.18.0-arm-linux-gnueabihf.tar.gz
-curl https://bitcoincore.org/bin/bitcoin-core-0.18.0/SHA256SUMS.asc --output SHA256SUMS.asc
+
+curl https://bitcoincore.org/bin/bitcoin-core-0.21.0/bitcoin-0.21.0-arm-linux-gnueabihf.tar.gz --output bitcoin-0.21.0-arm-linux-gnueabihf.tar.gz
+curl https://bitcoincore.org/bin/bitcoin-core-0.21.0/SHA256SUMS.asc --output SHA256SUMS.asc
 
 
 
@@ -19,8 +20,8 @@ Verify files
 
 Unzip
 ---------------------
-gunzip bitcoin-0.18.0-arm-linux-gnueabihf.tar.gz
-tar xvf bitcoin-0.18.0-arm-linux-gnueabihf.tar
+gunzip bitcoin-0.21.0-arm-linux-gnueabihf.tar.gz
+tar xvf bitcoin-0.21.0-arm-linux-gnueabihf.tar
 
 
 
@@ -29,7 +30,7 @@ Install
 systemctl | grep bitcoin
 sudo systemctl stop bitcoind
 
-sudo install -m 0755 -o root -g root -t /usr/local/bin bitcoin-0.18.0/bin/*
+sudo install -m 0755 -o root -g root -t /usr/local/bin bitcoin-0.21.0/bin/*
 
 sudo systemctl start bitcoind
 tail -f ~/.bitcoin/debug.log
@@ -38,7 +39,7 @@ tail -f ~/.bitcoin/debug.log
 
 Verify installation
 ---------------------
-bitcoin-cli -rpcuser=rpcpi -rpcpassword=robo_pie_connect_miss_554 -rpcport=8332 getnetworkinfo
-bitcoin-cli -rpcuser=rpcpi -rpcpassword=robo_pie_connect_miss_554 -rpcport=8332 getconnectioncount
+bitcoin-cli -rpcuser=raspibolt -rpcpassword=robo_pie_connect_miss_554 -rpcport=8332 getnetworkinfo
+bitcoin-cli -rpcuser=raspibolt -rpcpassword=robo_pie_connect_miss_554 -rpcport=8332 getconnectioncount
 
 :-)
