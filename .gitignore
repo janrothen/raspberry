@@ -6,3 +6,5 @@ venv/
 
 *.BACKUP.*
 *.DS_STORE
+
+.vscode/*
