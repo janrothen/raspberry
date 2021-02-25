@@ -42,4 +42,9 @@ Verify installation
 bitcoin-cli -rpcuser=raspibolt -rpcpassword=robo_pie_connect_miss_554 -rpcport=8332 getnetworkinfo
 bitcoin-cli -rpcuser=raspibolt -rpcpassword=robo_pie_connect_miss_554 -rpcport=8332 getconnectioncount
 
+From Mac
+---------------------
+curl --user raspibolt:robo_pie_connect_miss_554 --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getblockchaininfo", "params": [] }' -H 'content-type: text/plain;' http://192.168.1.100:8332/
+
+
 :-)
