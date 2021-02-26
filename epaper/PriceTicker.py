@@ -46,7 +46,8 @@ class PriceTicker(object):
             #self.wait()
             #self.clear_display()
             self.display_price()
-        except:
+        except Exception as ex:
+            logging.error(ex)
             self.stop()
     
     def stop(self):
