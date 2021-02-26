@@ -8,6 +8,8 @@ DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DIR_LIB = os.path.join(DIRECTORY, 'lib')
 DIR_MEDIA = os.path.join(DIRECTORY, 'media')
 
+FONT = 'UbuntuBoldItalic-Rg86.ttf'
+
 if os.path.exists(DIR_LIB):
     sys.path.append(DIR_LIB)
 
@@ -28,8 +30,8 @@ try:
     epd.Clear(0xFF)
 
     # Drawing on the image
-    font15 = ImageFont.truetype(os.path.join(DIR_MEDIA, 'Font.ttc'), 15)
-    font24 = ImageFont.truetype(os.path.join(DIR_MEDIA, 'Font.ttc'), 24)
+    font15 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 15)
+    font24 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 24)
     
     logging.info("1.Drawing on the image...")
     image = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame    
