@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+import math
 
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -45,14 +46,12 @@ try:
 
     epd.Clear(0xFF)
 
-    FONT_SIZE_P = 48 # 48 points = 64 pixels
-    FONT_SIZE = FONT_SIZE_P * 1.33333
-    logging.info(FONT_SIZE)
-    FONT_SIZE = int(FONT_SIZE_P * 1.33333)
-    logging.info(FONT_SIZE)
+    FONT_SIZE_IN_POINTS = 48 # 48 points = 64 pixels
     font_file = os.path.join(DIR_MEDIA, FONT)
-    font = ImageFont.truetype(font_file, FONT_SIZE_P)
-    
+    font = ImageFont.truetype(font_file, FONT_SIZE_IN_POINTS)
+    FONT_SIZE =  int(math.ceil(FONT_SIZE_IN_POINTS * 1.333)) # points * 1+1/3 = pixels
+    logging.info(FONT_SIZE)
+
     frame = Image.new(IMAGE_MODE, (WIDTH, HEIGHT))
     price = ImageDraw.Draw(frame)
     padding_top = int((HEIGHT - FONT_SIZE) / 2)
