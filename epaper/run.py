@@ -45,8 +45,11 @@ try:
 
     epd.Clear(0xFF)
 
-    FONT_SIZE = 64
-    font = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), FONT_SIZE)
+    FONT_SIZE_P = 48 # 48 points = 64 pixels
+    FONT_SIZE = int(FONT_SIZE_P * 1.333)
+    logging.info(FONT_SIZE)
+    font_file = os.path.join(DIR_MEDIA, FONT);
+    font = ImageFont.truetype(font_file, FONT_SIZE_P)
     
     frame = Image.new(IMAGE_MODE, (WIDTH, HEIGHT))
     price = ImageDraw.Draw(frame)
