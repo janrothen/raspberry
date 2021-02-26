@@ -77,26 +77,24 @@ class PriceTicker(object):
         self.epd.init(self.epd.PART_UPDATE)
 
         sec = 0
-        increment = 0.25
+        increment = 1
+        price_refresh_interval_in_sec = 10
         price = 'N/A'
         while (self.RUNNING):
             logging.debug(sec)
-            if sec >= (15 * 60):
+            if sec >= (price_refresh_interval_in_sec * 60):
                 sec = 0 # reset sec ounter
-            if sec % 15 == 0:
+            if sec % price_refresh_interval_in_sec == 0:
                 logging.info('getting new price data')
                 price = self.price_client.retrieve_price()
 
                 logging.info('drawing price')
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
                 draw.text((8, 32), price, font = font, fill = WHITE)
+            else:
+                progress = int((self.WIDTH / price_refresh_interval_in_sec) * sec)
+                draw.rectangle((0, 0, progress, 1), fill = WHITE)
             
-            logging.info(price)
-
-            partial = int((self.WIDTH / 15) * sec)
-            draw.rectangle((0, 0, partial, 1), fill = WHITE)
-            
-            #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
             self.epd.displayPartial(self.epd.getbuffer(frame))
 
             sec = sec + increment
