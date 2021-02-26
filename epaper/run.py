@@ -42,7 +42,7 @@ try:
     
     frame = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame    
     price = ImageDraw.Draw(frame)
-    price.text((32, 32), u'$48''231', font = font36, fill = 0)
+    price.text((32, 32), u'$48''231', font = font64, fill = 0)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
     
