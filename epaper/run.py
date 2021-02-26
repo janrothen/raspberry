@@ -2,9 +2,12 @@
 
 import os, sys
 import signal
+import logging
 
 from BitcoinPriceClient import BitcoinPriceClient
 from PriceTicker import PriceTicker
+
+logging.basicConfig(level=logging.DEBUG)
 
 class GracefulKiller:
     kill_now = False
@@ -16,7 +19,7 @@ class GracefulKiller:
         signal.signal(signal.SIGTERM, self.exit_gracefully)
 
     def exit_gracefully(self, signum, frame):
-        print('exiting')
+        print('exiting...')
         self.ticker.shutdown()
 
 if __name__ == '__main__':
@@ -28,7 +31,9 @@ if __name__ == '__main__':
     try:
         price_ticker.run()
     except Exception as ex:
-        print(ex)
+        logging.error(ex)
+        
         price_ticker.shutdown()
+
         traceback.print_exc(file=sys.stdout)
         sys.exit(0)

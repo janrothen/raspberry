@@ -19,8 +19,6 @@ from PIL import Image,ImageDraw,ImageFont
 import traceback
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
-
 class PriceTicker(object):
     def __init__(self, price_client):
         self.price_client = price_client
@@ -50,15 +48,12 @@ class PriceTicker(object):
             #self.wait()
             #self.clear_display()
             self.display_price()
-        except KeyboardInterrupt:
-            logging.info("ctrl + c:")
+        except:
             self.shutdown()
-            exit()
 
     def shutdown(self):
-        logging.info("Goto Sleep...")
+        logging.info("shutting down")
         self.epd.sleep()
-        epd2in13_V2.epdconfig.module_exit()
 
     def display_image(self):
         image = self.load_image()
