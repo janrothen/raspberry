@@ -115,7 +115,7 @@ class PriceTicker(object):
         time.sleep(3)
 
     def clear_display(self):
-        self.epd.init(epd.FULL_UPDATE)
+        self.epd.init(self.epd.FULL_UPDATE)
         self.epd.Clear(0xFF)
 
     def load_image(self):
