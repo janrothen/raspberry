@@ -32,7 +32,7 @@ try:
 
     frame = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
     bitcoin = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122.bmp'))
-    frame.paste(bitcoin, (0,0))    
+    frame.paste(bitcoin, (64,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
 
