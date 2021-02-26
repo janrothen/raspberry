@@ -27,7 +27,7 @@ try:
     logging.info("init & clear")
     epd = epd2in13_V2.EPD()
     epd.init(epd.FULL_UPDATE)
-    epd.Clear(0x00)
+    #epd.Clear(0x00)
     WIDTH = epd.height # 250 pixels
     HEIGHT = epd.width # 122 pixels
     logging.info("init complete")
