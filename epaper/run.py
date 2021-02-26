@@ -61,9 +61,9 @@ try:
 
     bitcoin_price_client = BitcoinPriceClient()
     logging.info(bitcoin_price_client)
-    price_s = bitcoin_price_client.price('USD')
+    price_s = bitcoin_price_client.retrieve_price('currency')
     logging.info(price_s)
-    
+
     price.text((16, 32), price_s, font = font, fill = 1)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)

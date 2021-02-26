@@ -4,6 +4,7 @@
 # Sends a notification email otherwise
 
 import sys, traceback
+import logging
 
 import json
 
@@ -19,6 +20,7 @@ class BitcoinPriceClient(object):
 	def retrieve_price(self, currency):
 		try:
 			request = Request()
+
 			data = self.retrieve_data(request)
 			print(data)
 			price = data[currency]['last']
