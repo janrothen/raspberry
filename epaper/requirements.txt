@@ -1,0 +1,5 @@
+numpy==1.16.2
+RPi.GPIO==0.7.0
+spidev==3.4
+piglow==1.2.5
+pigpio==1.44
