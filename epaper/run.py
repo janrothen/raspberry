@@ -2,16 +2,20 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
-import logging
-picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'epaper/media')
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'epaper/lib')
-if os.path.exists(libdir):
-    sys.path.append(libdir)
+
+DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+LIB_DIRECTORY = os.path.join(DIRECTORY, 'lib')
+LIB_MEDIA = os.path.join(DIRECTORY, 'media')
+
+if os.path.exists(LIB_DIRECTORY):
+    sys.path.append(LIB_DIRECTORY)
 
 from lib import epd2in13_V2
 import time
 from PIL import Image,ImageDraw,ImageFont
 import traceback
+import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -24,8 +28,8 @@ try:
     epd.Clear(0xFF)
 
     # Drawing on the image
-    font15 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 15)
-    font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
+    font15 = ImageFont.truetype(os.path.join(LIB_MEDIA, 'Font.ttc'), 15)
+    font24 = ImageFont.truetype(os.path.join(LIB_MEDIA, 'Font.ttc'), 24)
     
     logging.info("1.Drawing on the image...")
     image = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame    
@@ -48,7 +52,7 @@ try:
     
     # read bmp file 
     logging.info("2.read bmp file...")
-    image = Image.open(os.path.join(picdir, '2in13.bmp'))
+    image = Image.open(os.path.join(LIB_MEDIA, '2in13.bmp'))
     epd.display(epd.getbuffer(image))
     time.sleep(2)
     
@@ -56,7 +60,7 @@ try:
     logging.info("3.read bmp file on window...")
     # epd.Clear(0xFF)
     image1 = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
-    bmp = Image.open(os.path.join(picdir, '100x100.bmp'))
+    bmp = Image.open(os.path.join(LIB_MEDIA, '100x100.bmp'))
     image1.paste(bmp, (2,2))    
     epd.display(epd.getbuffer(image1))
     time.sleep(2)
