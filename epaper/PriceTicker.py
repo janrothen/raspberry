@@ -76,7 +76,7 @@ class PriceTicker(object):
         self.epd.init(self.epd.PART_UPDATE)
 
         sec = 0
-        increment = 1
+        increment = 0.25
         price = 'N/A'
         while (self.RUNNING):
             logging.debug(sec)
