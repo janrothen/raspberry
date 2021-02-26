@@ -28,16 +28,15 @@ try:
     epd = epd2in13_V2.EPD()
     epd.init(epd.FULL_UPDATE)
     #epd.Clear(0xFF)
-    HEIGHT = epd.height
-    WIDTH = epd.width
+    WIDTH = epd.height # 250 pixels
+    logging.info(WIDTH)
+    HEIGHT = epd.width # 122 pixels
+    logging.info(HEIGHT)
     logging.info("init complete")
 
-    frame = Image.new('1', (HEIGHT, WIDTH), 0)  # 255: clear the frame
+    frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame
     bitcoin = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122_b.bmp'))
-    margin_left = (HEIGHT - 122) / 2
-    logging.info(margin_left)
     margin_left = int((WIDTH - 122) / 2)
-    logging.info(margin_left)
     frame.paste(bitcoin, (margin_left,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
@@ -47,9 +46,9 @@ try:
     FONT_SIZE = 64
     font = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), FONT_SIZE)
     
-    frame = Image.new('1', (HEIGHT, WIDTH), 255)  # 255: clear the frame    
+    frame = Image.new('1', (WIDTH, HEIGHT), 255)  # 255: clear the frame    
     price = ImageDraw.Draw(frame)
-    margin_top = (WIDTH - FONT_SIZE) / 2
+    margin_top = (HEIGHT - FONT_SIZE) / 2
     price.text((32, margin_top), u'$48''231', font = font, fill = 0)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
