@@ -28,7 +28,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 class PriceTicker(object):
 
-    def retrieve_data(self):
+    def run(self):
         try:
             logging.info("₿ e-Paper")
 
