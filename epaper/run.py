@@ -38,21 +38,13 @@ try:
 
     epd.Clear(0xFF)
 
-    font36 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 36)
+    font64 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 64)
     
     frame = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame    
     price = ImageDraw.Draw(frame)
     price.text((32, 32), u'$48''231', font = font36, fill = 0)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
-    
-    # read bmp file 
-    logging.info("2.read bmp file...")
-    image = Image.open(os.path.join(DIR_MEDIA, '2in13.bmp'))
-    epd.display(epd.getbuffer(image))
-    time.sleep(2)
-    
-
     
     # # partial update
     logging.info("4.show time...")
@@ -65,8 +57,8 @@ try:
     epd.init(epd.PART_UPDATE)
     num = 0
     while (True):
-        time_draw.rectangle((120, 80, 220, 105), fill = 255)
-        time_draw.text((120, 80), time.strftime('%H:%M:%S'), font = font36, fill = 0)
+        time_draw.rectangle((32, 32, 220, 105), fill = 255)
+        time_draw.text((32, 32), time.strftime('%H:%M:%S'), font = font64, fill = 0)
         epd.displayPartial(epd.getbuffer(time_image))
         num = num + 1
         if(num == 10):
