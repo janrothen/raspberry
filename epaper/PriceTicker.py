@@ -112,7 +112,7 @@ class PriceTicker(object):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
 
     def wait(self):
-        time.sleep(5)
+        time.sleep(3)
 
     def clear_display(self):
         white = 0xFF
