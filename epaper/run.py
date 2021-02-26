@@ -9,30 +9,26 @@ from PriceTicker import PriceTicker
 class GracefulKiller:
     kill_now = False
 
-    def __init__(self):
+    def __init__(self, ticker):
+        self.ticker = ticker
+
         signal.signal(signal.SIGINT, self.exit_gracefully)
         signal.signal(signal.SIGTERM, self.exit_gracefully)
 
     def exit_gracefully(self, signum, frame):
         print('exiting')
-        self.kill_now = True
+        self.ticker.shutdown()
 
 if __name__ == '__main__':
-    killer = GracefulKiller()
-
     price_client = BitcoinPriceClient('USD')    
     price_ticker = PriceTicker(price_client)
 
+    killer = GracefulKiller(price_ticker)
+
     try:
         price_ticker.run()
-        while not killer.kill_now:
-            print('running')
-            time.sleep(10)
-
     except Exception as ex:
         print(ex)
         price_ticker.shutdown()
         traceback.print_exc(file=sys.stdout)
         sys.exit(0)
-
-    price_ticker.shutdown()
