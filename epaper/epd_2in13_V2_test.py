@@ -6,7 +6,7 @@ import logging
 picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'media')
 logging.info(picdir)
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-logging.info(lib)
+logging.info(libdir)
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
