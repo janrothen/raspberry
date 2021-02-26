@@ -20,7 +20,7 @@ class GracefulKiller:
 
     def exit_gracefully(self, signum, frame):
         print('exiting...')
-        self.ticker.shutdown()
+        self.ticker.stop()
 
 if __name__ == '__main__':
     price_client = BitcoinPriceClient('USD')    
@@ -29,11 +29,11 @@ if __name__ == '__main__':
     killer = GracefulKiller(price_ticker)
 
     try:
-        price_ticker.run()
+        price_ticker.start()
     except Exception as ex:
         logging.error(ex)
         
-        price_ticker.shutdown()
+        price_ticker.stop()
 
         traceback.print_exc(file=sys.stdout)
         sys.exit(0)

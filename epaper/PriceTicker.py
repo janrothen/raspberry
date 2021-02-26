@@ -37,24 +37,18 @@ class PriceTicker(object):
         self.WIDTH = self.epd.height # 250 pixels
         self.HEIGHT = self.epd.width # 122 pixels
 
-    def wait(self):
-        time.sleep(5)
-
-    def clear_display(self):
-        self.epd.Clear(0xFF)
-
-    def run(self):
+    def start(self):
         try:
             #self.display_image()
             #self.wait()
             #self.clear_display()
             self.display_price()
         except:
-            self.shutdown()
-
-    def shutdown(self):
-        self.RUNNING = False
+            self.stop()
+    
+    def stop(self):
         logging.info("shutting down")
+        self.RUNNING = False
         self.epd.sleep()
 
     def display_image(self):
@@ -66,24 +60,7 @@ class PriceTicker(object):
         frame.paste(image, (padding_left,0))    
         
         self.epd.display(self.epd.getbuffer(frame))
-
-    def load_image(self):
-        try:
-            image_file_name = 'bitcoin122x122_b.bmp'
-            return Image.open(os.path.join(DIR_MEDIA, image_file_name))
-        except IOError as e:
-            logging.error(e)    
-
-    def load_font(self):
-        try:
-            font_file_name = 'UbuntuBoldItalic-Rg86.ttf'
-            font_file = os.path.join(DIR_MEDIA, font_file_name)
-            FONT_SIZE_IN_POINTS = 48 # 48 points = 64 pixels
-            return ImageFont.truetype(font_file, FONT_SIZE_IN_POINTS)
-        except IOError as e:
-            logging.error(e)    
-
-
+ 
     def create_frame(self):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
 
@@ -116,5 +93,25 @@ class PriceTicker(object):
             sec = sec + 1
             time.sleep(1)
 
-            #logging.info("Goto Sleep...")
-            #self.epd.sleep()
+    def wait(self):
+        time.sleep(5)
+
+    def clear_display(self):
+        white = 0xFF
+        self.epd.Clear(white)
+
+    def load_image(self):
+        try:
+            image_file_name = 'bitcoin122x122_b.bmp'
+            return Image.open(os.path.join(DIR_MEDIA, image_file_name))
+        except IOError as e:
+            logging.error(e)    
+
+    def load_font(self):
+        try:
+            font_file_name = 'UbuntuBoldItalic-Rg86.ttf'
+            font_file = os.path.join(DIR_MEDIA, font_file_name)
+            FONT_SIZE_IN_POINTS = 48 # 48 points = 64 pixels
+            return ImageFont.truetype(font_file, FONT_SIZE_IN_POINTS)
+        except IOError as e:
+            logging.error(e)
