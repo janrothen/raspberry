@@ -80,7 +80,9 @@ class PriceTicker(object):
         price = 'N/A'
         while (self.RUNNING):
             logging.debug(sec)
-            if(sec % 60 == 0):
+            if sec >= (15 * 60):
+                sec = 0 # reset sec ounter
+            if sec % 15 == 0:
                 logging.info('getting new price data')
                 price = self.price_client.retrieve_price()
 
@@ -95,6 +97,7 @@ class PriceTicker(object):
             
             #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
             self.epd.displayPartial(self.epd.getbuffer(frame))
+
             sec = sec + increment
             time.sleep(increment)
 
