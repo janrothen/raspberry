@@ -52,10 +52,12 @@ class PriceTicker(object):
             self.display_price()
         except KeyboardInterrupt:
             logging.info("ctrl + c:")
-            self.exit()
+            self.shutdown()
             exit()
 
-    def exit(self):
+    def shutdown(self):
+        logging.info("Goto Sleep...")
+        self.epd.sleep()
         epd2in13_V2.epdconfig.module_exit()
 
     def display_image(self):
