@@ -111,19 +111,12 @@ class PriceTicker(object):
     def create_frame(self):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
 
-    def create_frame_white(self):
-        return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT), WHITE)
-
     def wait(self):
         time.sleep(3)
 
     def clear_display(self):
         white = 0xFF
         self.epd.Clear(white)
-        frame = self.create_frame_white()
-        draw = ImageDraw.Draw(frame)
-        draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = WHITE)
-        self.epd.display(self.epd.getbuffer(frame))
 
     def load_image(self):
         try:
