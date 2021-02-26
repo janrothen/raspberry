@@ -51,7 +51,11 @@ class PriceTicker(object):
     
     def stop(self):
         logging.info("shutting down")
-        self.RUNNING = False
+        if self.RUNNING:
+            self.RUNNING = False
+            self.shutdown()
+
+    def shutdown(self):
         self.clear_display()
         self.epd.sleep()
 
