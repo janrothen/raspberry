@@ -86,8 +86,6 @@ class PriceTicker(object):
         price = 'N/A'
         while (self.RUNNING):
             logging.debug(sec)
-            if sec >= (price_refresh_interval_in_sec * 60):
-                sec = 0 # reset sec ounter
             if sec % price_refresh_interval_in_sec == 0:
                 logging.info('getting new price data')
                 price = self.price_client.retrieve_price()
@@ -103,6 +101,8 @@ class PriceTicker(object):
 
             sec = sec + increment
             time.sleep(increment)
+            if sec >= price_refresh_interval_in_sec:
+                sec = 0 # reset sec ounter
 
     def create_frame(self):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
