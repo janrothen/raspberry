@@ -83,31 +83,13 @@ class PriceTicker(object):
     def display_price(self):
         try:
             font = self.load_font()
-            logging.info(font)
-            logging.info(font.size)
-            FONT_SIZE = int(math.ceil(48 * 1.333)) # points * 1+1/3 = pixels
-            logging.info(FONT_SIZE)
+            font_size = int(math.ceil(font.size * 1.333)) # points * 1+1/3 = pixels
 
-            frame = self.create_frame()
-            price = ImageDraw.Draw(frame)
-            padding_top = int((self.HEIGHT - FONT_SIZE) / 2)
-            logging.info(padding_top)
-
-            #price_s = bitcoin_price_client.retrieve_price()
-            price_s = '$99999.99'
-            logging.info(price_s)
-
-            price.text((8, 32), price_s, font = font, fill = 1)
-            self.epd.display(self.epd.getbuffer(frame))
-            time.sleep(5)
+            image = Image.new(self.IMAGE_MODE, (self.epd.height, self.epd.width), 255)
+            time_draw = ImageDraw.Draw(image)
             
-            # # partial update
-            logging.info("4.show time...")
-            time_image = Image.new(self.IMAGE_MODE, (self.epd.height, self.epd.width), 255)
-            time_draw = ImageDraw.Draw(time_image)
-            
-            self.epd.init(self.epd.FULL_UPDATE)
-            self.epd.displayPartBaseImage(self.epd.getbuffer(time_image))
+            #self.epd.init(self.epd.FULL_UPDATE)
+            #self.epd.displayPartBaseImage(self.epd.getbuffer(image))
             
             self.epd.init(self.epd.PART_UPDATE)
             num = 0
@@ -117,7 +99,7 @@ class PriceTicker(object):
                 time_draw.text((8, 32), price_s, font = font, fill = 255)
                 
                 #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
-                self.epd.displayPartial(self.epd.getbuffer(time_image))
+                self.epd.displayPartial(self.epd.getbuffer(image))
                 num = num + 1
                 time.sleep(15)
                 if(num == 100):
