@@ -13,7 +13,7 @@ from utils.config import config
 SERVICE_ENDPOINT = config().get('bitcoin.price', 'service_endpoint')
 
 class BitcoinPriceClient(object):
-	def __init__(self, tweet):
+	def __init__(self):
 		self.price = None
 
 	def retrieve_price(self, currency):
