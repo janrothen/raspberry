@@ -32,7 +32,7 @@ try:
 
     # Drawing on the image
     font15 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 15)
-    font24 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 24)
+    font35 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 35)
     
     logging.info("1.Drawing on the image...")
     image = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame    
@@ -49,15 +49,13 @@ try:
     draw.polygon([(110,0),(110,50),(150,25)],outline = 0)
     draw.polygon([(190,0),(190,50),(150,25)],fill = 0)
     draw.text((120, 60), 'e-Paper demo', font = font15, fill = 0)
-    draw.text((110, 90), u'JAN', font = font24, fill = 0)
+    draw.text((110, 90), u'$48''231', font = font24, fill = 0)
     epd.display(epd.getbuffer(image))
     time.sleep(2)
     
     # read bmp file 
     logging.info("2.read bmp file...")
-    #image = Image.open(os.path.join(DIR_MEDIA, '2in13.bmp'))
-    image = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122.bmp'))
-
+    image = Image.open(os.path.join(DIR_MEDIA, '2in13.bmp'))
     epd.display(epd.getbuffer(image))
     time.sleep(2)
     
