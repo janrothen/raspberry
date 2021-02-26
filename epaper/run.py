@@ -37,7 +37,7 @@ try:
     image_width, image_height = image.size
     padding_left = int((WIDTH - image_width) / 2)
 
-    frame = Image.new('1', (WIDTH, HEIGHT), 0) # 255: clear the frame
+    frame = Image.new('L', (WIDTH, HEIGHT))
     frame.paste(image, (padding_left,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
@@ -47,7 +47,7 @@ try:
     FONT_SIZE = 64
     font = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), FONT_SIZE)
     
-    frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame    
+    frame = Image.new('L', (WIDTH, HEIGHT))
     price = ImageDraw.Draw(frame)
     padding_top = int((HEIGHT - FONT_SIZE) / 2)
     logging.info(padding_top)
@@ -57,7 +57,7 @@ try:
     
     # # partial update
     logging.info("4.show time...")
-    time_image = Image.new('1', (epd.height, epd.width), 255)
+    time_image = Image.new('L', (epd.height, epd.width), 255)
     time_draw = ImageDraw.Draw(time_image)
     
     epd.init(epd.FULL_UPDATE)
