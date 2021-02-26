@@ -81,7 +81,7 @@ try:
     while (True):
         time_draw.rectangle((0, 0, WIDTH, HEIGHT), fill = 0)
         price_s = bitcoin_price_client.retrieve_price('USD')
-        time_draw.text((4, 32), price_s, font = font, fill = 255)
+        time_draw.text((8, 32), price_s, font = font, fill = 255)
         
         #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
         epd.displayPartial(epd.getbuffer(time_image))
