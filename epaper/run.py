@@ -20,6 +20,8 @@ from PIL import Image,ImageDraw,ImageFont
 import traceback
 import logging
 
+from BitcoinPriceClient import BitcoinPriceClient
+
 logging.basicConfig(level=logging.DEBUG)
 
 try:
@@ -56,7 +58,11 @@ try:
     price = ImageDraw.Draw(frame)
     padding_top = int((HEIGHT - FONT_SIZE) / 2)
     logging.info(padding_top)
-    price.text((16, 32), u'$48''231 / \u0243', font = font, fill = 1)
+
+    bitcoin_price_client = BitcoinPriceClient()
+    price_s = bitcoin_price_client.price()
+
+    price.text((16, 32), price_s, font = font, fill = 1)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
     
