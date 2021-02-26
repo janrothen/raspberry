@@ -52,6 +52,7 @@ class PriceTicker(object):
     def stop(self):
         logging.info("shutting down")
         self.RUNNING = False
+        self.clear_display()
         self.epd.sleep()
 
     def display_image(self):
@@ -92,7 +93,7 @@ class PriceTicker(object):
             
             logging.info(price)
 
-            partial = int((self.WIDTH / 60) * sec)
+            partial = int((self.WIDTH / 15) * sec)
             draw.rectangle((0, 0, partial, 1), fill = WHITE)
             
             #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
