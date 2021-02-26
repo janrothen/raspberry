@@ -86,34 +86,33 @@ class PriceTicker(object):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
 
     def display_price(self):
-        try:
-            font = self.load_font()
-            font_size = int(math.ceil(font.size * 1.333)) # points * 1+1/3 = pixels
+        font = self.load_font()
+        font_size = int(math.ceil(font.size * 1.333)) # points * 1+1/3 = pixels
 
-            frame = self.create_frame()
-            draw = ImageDraw.Draw(frame)
-            
-            self.epd.init(self.epd.FULL_UPDATE)
-            self.epd.displayPartBaseImage(self.epd.getbuffer(frame))
-            self.epd.init(self.epd.PART_UPDATE)
-            
-            sec = 0
-            price = 'N/A'
-            while (True):
-                logging.info(sec)
-                if(sec % 60 == 0):
-                    logging.info('getting new price data')
-                    price = self.price_client.retrieve_price()
-                    
-                #draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = 0)
-                logging.info(price)
+        frame = self.create_frame()
+        draw = ImageDraw.Draw(frame)
+        
+        self.epd.init(self.epd.FULL_UPDATE)
+        self.epd.displayPartBaseImage(self.epd.getbuffer(frame))
+        self.epd.init(self.epd.PART_UPDATE)
 
-                draw.text((8, 32), price, font = font, fill = 255)
+        sec = 0
+        price = 'N/A'
+        while (True):
+            logging.info(sec)
+            if(sec % 60 == 0):
+                logging.info('getting new price data')
+                price = self.price_client.retrieve_price()
                 
-                #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
-                self.epd.displayPartial(self.epd.getbuffer(frame))
-                sec = sec + 1
-                time.sleep(1)
+            #draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = 0)
+            logging.info(price)
 
-                #logging.info("Goto Sleep...")
-                #self.epd.sleep()
+            draw.text((8, 32), price, font = font, fill = 255)
+            
+            #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
+            self.epd.displayPartial(self.epd.getbuffer(frame))
+            sec = sec + 1
+            time.sleep(1)
+
+            #logging.info("Goto Sleep...")
+            #self.epd.sleep()
