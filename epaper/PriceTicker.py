@@ -45,8 +45,8 @@ class PriceTicker(object):
         self.epd.Clear(0xFF)
 
     def run(self):
-        self.display_image()
-        self.wait()
+        #self.display_image()
+        #self.wait()
         #self.clear_display()
         self.display_price()
 
