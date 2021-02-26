@@ -32,11 +32,13 @@ try:
     HEIGHT = epd.width # 122 pixels
     logging.info("init complete")
 
-    frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame
-    image = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122_b.bmp'))
+    image_name = 'bitcoin122x122_b.bmp'
+    image = Image.open(os.path.join(DIR_MEDIA, image_name))
     image_width, image_height = image.size
-    margin_left = int((WIDTH - image_width) / 2)
-    frame.paste(image, (margin_left,0))    
+    padding_left = int((WIDTH - image_width) / 2)
+
+    frame = Image.new('1', (WIDTH, HEIGHT), 0) # 255: clear the frame
+    frame.paste(image, (padding_left,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
 
