@@ -94,10 +94,10 @@ class PriceTicker(object):
 
                 logging.info('drawing price')
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-                draw.text((8, 32), price, font = font, fill = WHITE)
+                draw.text((8, 33), price, font = font, fill = WHITE)
             else:
                 progress = int((self.WIDTH / price_refresh_interval_in_sec) * sec)
-                draw.rectangle((0, 0, progress, 1), fill = WHITE)
+                draw.rectangle((0, 0, progress, 2), fill = WHITE)
             
             self.epd.displayPartial(self.epd.getbuffer(frame))
 
