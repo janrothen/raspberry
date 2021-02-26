@@ -96,7 +96,7 @@ class PriceTicker(object):
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
                 draw.text((8, 33), price, font = font, fill = WHITE)
                 
-                draw.rectangle((0, 0, progress, 2), fill = progress_bar_color)
+                draw.rectangle((0, 0, self.WIDTH, 2), fill = progress_bar_color)
                 progress_bar_color = WHITE if progress_bar_color == BLACK else BLACK
                 logging.info('progress_bar_color')
                 logging.info(progress_bar_color)
