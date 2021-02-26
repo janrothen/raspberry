@@ -56,7 +56,7 @@ try:
     price = ImageDraw.Draw(frame)
     padding_top = int((HEIGHT - FONT_SIZE) / 2)
     logging.info(padding_top)
-    price.text((16, 32), u'$48''231 / ₿', font = font, fill = 1)
+    price.text((16, 32), u'$48''231 / \u0243', font = font, fill = 1)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
     
