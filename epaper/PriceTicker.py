@@ -10,8 +10,6 @@ DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DIR_LIB = os.path.join(DIRECTORY, 'lib')
 DIR_MEDIA = os.path.join(DIRECTORY, 'media')
 
-FONT = 'UbuntuBoldItalic-Rg86.ttf'
-
 if os.path.exists(DIR_LIB):
     sys.path.append(DIR_LIB)
 
@@ -40,12 +38,16 @@ class PriceTicker(object):
         self.WIDTH = self.epd.height # 250 pixels
         self.HEIGHT = self.epd.width # 122 pixels
 
-    def run(self):
-        self.display_image()
+    def wait(self):
         time.sleep(5)
 
+    def clear_display(self):
         self.epd.Clear(0xFF)
 
+    def run(self):
+        self.display_image()
+        self.wait()
+        #self.clear_display()
         self.display_price()
 
     def display_image(self):
@@ -60,20 +62,29 @@ class PriceTicker(object):
 
     def load_image(self):
         try:
-            image_name = 'bitcoin122x122_b.bmp'
-            return Image.open(os.path.join(DIR_MEDIA, image_name))
+            image_file_name = 'bitcoin122x122_b.bmp'
+            return Image.open(os.path.join(DIR_MEDIA, image_file_name))
         except IOError as e:
-            logging.info(e)    
+            logging.error(e)    
+
+    def load_font(self):
+        try:
+            font_file_name = 'UbuntuBoldItalic-Rg86.ttf'
+            font_file = os.path.join(DIR_MEDIA, font_file_name)
+            FONT_SIZE_IN_POINTS = 48 # 48 points = 64 pixels
+            font = ImageFont.truetype(font_file, FONT_SIZE_IN_POINTS)
+        except IOError as e:
+            logging.error(e)    
+
 
     def create_frame(self):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
 
     def display_price(self):
         try:
-            FONT_SIZE_IN_POINTS = 48 # 48 points = 64 pixels
-            font_file = os.path.join(DIR_MEDIA, FONT)
-            font = ImageFont.truetype(font_file, FONT_SIZE_IN_POINTS)
-            FONT_SIZE = int(math.ceil(FONT_SIZE_IN_POINTS * 1.333)) # points * 1+1/3 = pixels
+            font = self.load_font()
+            logging.info(font)
+            FONT_SIZE = int(math.ceil(48 * 1.333)) # points * 1+1/3 = pixels
             logging.info(FONT_SIZE)
 
             frame = self.create_frame()
@@ -101,7 +112,7 @@ class PriceTicker(object):
             num = 0
             while (True):
                 time_draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = 0)
-                price_s = self.price_client.retrieve_price('USD')
+                price_s = self.price_client.retrieve_price()
                 time_draw.text((8, 32), price_s, font = font, fill = 255)
                 
                 #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
