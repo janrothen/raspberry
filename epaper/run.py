@@ -2,12 +2,12 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
-picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'media')
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+import logging
+picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'epaper/media')
+libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'epaper/lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
-import logging
 from lib import epd2in13_V2
 import time
 from PIL import Image,ImageDraw,ImageFont
