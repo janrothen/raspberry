@@ -10,6 +10,9 @@ DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DIR_LIB = os.path.join(DIRECTORY, 'lib')
 DIR_MEDIA = os.path.join(DIRECTORY, 'media')
 
+WHITE = 255
+BLACK = 0
+
 if os.path.exists(DIR_LIB):
     sys.path.append(DIR_LIB)
 
@@ -82,13 +85,13 @@ class PriceTicker(object):
                 price = self.price_client.retrieve_price()
 
                 logging.info('drawing price')
-                draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = 0)
-                draw.text((8, 32), price, font = font, fill = 255)
+                draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
+                draw.text((8, 32), price, font = font, fill = WHITE)
             
             logging.info(price)
 
             partial = int((self.WIDTH / 60) * sec)
-            draw.rectangle((0, 0, partial, 1), fill = 0)
+            draw.rectangle((0, 0, partial, 1), fill = WHITE)
             
             #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
             self.epd.displayPartial(self.epd.getbuffer(frame))
