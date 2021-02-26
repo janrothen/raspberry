@@ -16,7 +16,6 @@ SERVICE_ENDPOINT = config().get('bitcoin.price', 'service_endpoint')
 class BitcoinPriceClient(object):
 	def retrieve_price(self, currency):
 		data = self.retrieve_data()
-		logging.debug(data)
 
 		if not data:
 			return 'N/A'

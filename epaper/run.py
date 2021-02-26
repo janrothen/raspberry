@@ -64,7 +64,7 @@ try:
     price_s = bitcoin_price_client.retrieve_price('USD')
     logging.info(price_s)
 
-    price.text((16, 32), price_s, font = font, fill = 1)
+    price.text((8, 32), price_s, font = font, fill = 1)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
     
@@ -80,10 +80,14 @@ try:
     num = 0
     while (True):
         time_draw.rectangle((0, 0, WIDTH, HEIGHT), fill = 0)
-        time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
+        price_s = bitcoin_price_client.retrieve_price('USD')
+        time_draw.text((0, 32), price_s, font = font, fill = 255)
+        
+        #time_draw.text((0, 32), time.strftime('%H:%M:%S'), font = font, fill = 255)
         epd.displayPartial(epd.getbuffer(time_image))
         num = num + 1
-        if(num == 10):
+        time.sleep(5)
+        if(num == 100):
             break
     # epd.Clear(0xFF)
     logging.info("Clear...")
