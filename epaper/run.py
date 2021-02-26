@@ -24,11 +24,19 @@ logging.basicConfig(level=logging.DEBUG)
 try:
     logging.info("e-Paper")
 
-    logging.info("init & clear")    
+    logging.info("init & clear")
     epd = epd2in13_V2.EPD()
     epd.init(epd.FULL_UPDATE)
     epd.Clear(0xFF)
-    logging.info("init complete")   
+    logging.info("init complete")
+
+    frame = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
+    bitcoin = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122.bmp'))
+    frame.paste(bitcoin, (2,2))    
+    epd.display(epd.getbuffer(frame))
+    time.sleep(5)
+
+    epd.Clear(0xFF)
 
     # Drawing on the image
     font15 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 15)
@@ -59,14 +67,7 @@ try:
     epd.display(epd.getbuffer(image))
     time.sleep(2)
     
-    # read bmp file on window
-    logging.info("3.read bmp file on window...")
-    # epd.Clear(0xFF)
-    image1 = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
-    bmp = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122.bmp'))
-    image1.paste(bmp, (2,2))    
-    epd.display(epd.getbuffer(image1))
-    time.sleep(2)
+
     
     # # partial update
     logging.info("4.show time...")
