@@ -17,17 +17,17 @@ class GracefulKiller:
         print('exiting')
         self.kill_now = True
 
-def run(strip):
-    print('running')
-
 if __name__ == '__main__':
     killer = GracefulKiller()
+
     price_client = BitcoinPriceClient('USD')    
     price_ticker = PriceTicker(price_client)
 
     try:
+        price_ticker.run()
         while not killer.kill_now:
-            price_ticker.run()
+            print('running')
+            time.sleep(10)
 
     except Exception as ex:
         print(ex)
