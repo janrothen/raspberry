@@ -83,7 +83,7 @@ class PriceTicker(object):
 
         sec = 0
         increment = 1
-        price_refresh_interval_in_sec = 10
+        price_refresh_interval_in_sec = 60
         progress_bar_color = BLACK
         price = 'N/A'
         while (self.RUNNING):
