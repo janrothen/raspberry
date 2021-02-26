@@ -87,20 +87,14 @@ class PriceTicker(object):
         progress_bar_color = BLACK
         price = 'N/A'
         while (self.RUNNING):
-            logging.debug(sec)
             if sec % price_refresh_interval_in_sec == 0:
-                logging.info('getting new price data')
                 price = self.price_client.retrieve_price()
 
-                logging.info('drawing price')
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-                draw.text((8, 33), price, font = font, fill = WHITE)
+                draw.text((8, 32), price, font = font, fill = WHITE)
                 
                 draw.rectangle((0, 0, self.WIDTH, 2), fill = progress_bar_color)
-                progress_bar_color = WHITE if progress_bar_color == BLACK else BLACK
-                logging.info('progress_bar_color')
-                logging.info(progress_bar_color)
-                
+                progress_bar_color = WHITE if progress_bar_color == BLACK else BLACK                
             else:
                 progress = int((self.WIDTH / price_refresh_interval_in_sec) * sec)
                 draw.rectangle((0, 0, progress, 2), fill = progress_bar_color)
@@ -111,6 +105,8 @@ class PriceTicker(object):
             time.sleep(increment)
             if sec >= price_refresh_interval_in_sec:
                 sec = 0 # reset sec ounter
+
+            logging.info(sec)
 
     def create_frame(self):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
