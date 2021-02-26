@@ -103,7 +103,7 @@ class PriceTicker(object):
                 
             else:
                 progress = int((self.WIDTH / price_refresh_interval_in_sec) * sec)
-                draw.rectangle((0, 0, self.WIDTH, 2), fill = progress_bar_color)
+                draw.rectangle((0, 0, progress, 2), fill = progress_bar_color)
             
             self.epd.displayPartial(self.epd.getbuffer(frame))
 
