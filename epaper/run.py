@@ -31,7 +31,7 @@ try:
     logging.info("init complete")
 
     frame = Image.new('1', (epd.height, epd.width), 0)  # 255: clear the frame
-    bitcoin = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122.bmp'))
+    bitcoin = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122_b.bmp'))
     frame.paste(bitcoin, (64,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
