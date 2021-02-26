@@ -3,13 +3,13 @@
 import sys
 import os
 
-DIRECTORY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
-LIB_DIRECTORY = os.path.join(DIRECTORY, 'lib')
-LIB_MEDIA = os.path.join(DIRECTORY, 'media')
+DIR_LIB = os.path.join(DIRECTORY, 'lib')
+DIR_MEDIA = os.path.join(DIRECTORY, 'media')
 
-if os.path.exists(LIB_DIRECTORY):
-    sys.path.append(LIB_DIRECTORY)
+if os.path.exists(DIR_LIB):
+    sys.path.append(DIR_LIB)
 
 from lib import epd2in13_V2
 import time
@@ -28,8 +28,8 @@ try:
     epd.Clear(0xFF)
 
     # Drawing on the image
-    font15 = ImageFont.truetype(os.path.join(LIB_MEDIA, 'Font.ttc'), 15)
-    font24 = ImageFont.truetype(os.path.join(LIB_MEDIA, 'Font.ttc'), 24)
+    font15 = ImageFont.truetype(os.path.join(DIR_MEDIA, 'Font.ttc'), 15)
+    font24 = ImageFont.truetype(os.path.join(DIR_MEDIA, 'Font.ttc'), 24)
     
     logging.info("1.Drawing on the image...")
     image = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame    
@@ -46,13 +46,13 @@ try:
     draw.polygon([(110,0),(110,50),(150,25)],outline = 0)
     draw.polygon([(190,0),(190,50),(150,25)],fill = 0)
     draw.text((120, 60), 'e-Paper demo', font = font15, fill = 0)
-    draw.text((110, 90), u'微雪电子', font = font24, fill = 0)
+    draw.text((110, 90), u'JAN', font = font24, fill = 0)
     epd.display(epd.getbuffer(image))
     time.sleep(2)
     
     # read bmp file 
     logging.info("2.read bmp file...")
-    image = Image.open(os.path.join(LIB_MEDIA, '2in13.bmp'))
+    image = Image.open(os.path.join(DIR_MEDIA, '2in13.bmp'))
     epd.display(epd.getbuffer(image))
     time.sleep(2)
     
@@ -60,7 +60,7 @@ try:
     logging.info("3.read bmp file on window...")
     # epd.Clear(0xFF)
     image1 = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
-    bmp = Image.open(os.path.join(LIB_MEDIA, '100x100.bmp'))
+    bmp = Image.open(os.path.join(DIR_MEDIA, '100x100.bmp'))
     image1.paste(bmp, (2,2))    
     epd.display(epd.getbuffer(image1))
     time.sleep(2)
