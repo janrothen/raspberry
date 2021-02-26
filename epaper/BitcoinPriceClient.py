@@ -14,25 +14,28 @@ from utils.config import config
 SERVICE_ENDPOINT = config().get('bitcoin.price', 'service_endpoint')
 
 class BitcoinPriceClient(object):
-	def retrieve_price(self, currency):
-		data = self.retrieve_data()
+    def __init__(self, currency):
+        self.currency = currency
 
-		if not data:
-			return 'N/A'
+    def retrieve_price(self):
+        data = self.retrieve_data()
 
-		price = data[currency]['last']
-		symbol = data[currency]['symbol']
-		price_formatted = '{}{}'.format(symbol, price)
-		logging.info(price_formatted)
+        if not data:
+            return 'N/A'
 
-		return price_formatted
+        price = data[self.currency]['last']
+        symbol = data[self.currency]['symbol']
+        price_formatted = '{}{}'.format(symbol, price)
+        logging.info(price_formatted)
 
-	def retrieve_data(self):
-		try:
-			request = Request()
-			result = request.get(SERVICE_ENDPOINT)
-			if result:
-				return json.loads(result)
-		except ConnectionError as e:
-			msg = str(e)
-			logging.error(msg)
+        return price_formatted
+
+    def retrieve_data(self):
+        try:
+            request = Request()
+            result = request.get(SERVICE_ENDPOINT)
+            if result:
+                return json.loads(result)
+        except ConnectionError as e:
+            msg = str(e)
+            logging.error(msg)
