@@ -29,15 +29,14 @@ try:
     epd.init(epd.FULL_UPDATE)
     #epd.Clear(0xFF)
     WIDTH = epd.height # 250 pixels
-    logging.info(WIDTH)
     HEIGHT = epd.width # 122 pixels
-    logging.info(HEIGHT)
     logging.info("init complete")
 
     frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame
-    bitcoin = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122_b.bmp'))
-    margin_left = int((WIDTH - 122) / 2)
-    frame.paste(bitcoin, (margin_left,0))    
+    image = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122_b.bmp'))
+    i_width, i_height = image.size
+    margin_left = int((WIDTH - width) / 2)
+    frame.paste(image, (margin_left,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
 
