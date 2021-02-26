@@ -83,6 +83,7 @@ class PriceTicker(object):
         sec = 0
         increment = 1
         price_refresh_interval_in_sec = 10
+        progress_bar_color = BLACK
         price = 'N/A'
         while (self.RUNNING):
             logging.debug(sec)
@@ -93,9 +94,11 @@ class PriceTicker(object):
                 logging.info('drawing price')
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
                 draw.text((8, 33), price, font = font, fill = WHITE)
+
+                progress_bar_color = WHITE if progress_bar_color == BLACK else BLACK
             else:
                 progress = int((self.WIDTH / price_refresh_interval_in_sec) * sec)
-                draw.rectangle((0, 0, progress, 2), fill = WHITE)
+                draw.rectangle((0, 0, progress, 2), fill = progress_bar_color)
             
             self.epd.displayPartial(self.epd.getbuffer(frame))
 
