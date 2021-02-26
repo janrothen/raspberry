@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 try:
     logging.info(picdir)
-    logging.info(lib)
+    logging.info(libdir)
     logging.info("epd2in13_V2 Demo")
     
     epd = epd2in13_V2.EPD()
