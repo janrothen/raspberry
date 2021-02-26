@@ -80,8 +80,8 @@ try:
             break
     # epd.Clear(0xFF)
     logging.info("Clear...")
-    epd.init(epd.FULL_UPDATE)
-    epd.Clear(0xFF)
+    #epd.init(epd.FULL_UPDATE)
+    #epd.Clear(0xFF)
     
     logging.info("Goto Sleep...")
     epd.sleep()
