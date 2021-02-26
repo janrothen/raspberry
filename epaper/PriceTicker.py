@@ -25,6 +25,7 @@ class PriceTicker(object):
 
         self.WIDTH = 0
         self.HEIGHT = 0
+        self.RUNNING = True
         self.IMAGE_MODE = '1' # 1 (1-bit pixels, black and white, stored with one pixel per byte)
 
         self.init_epd()
@@ -52,6 +53,7 @@ class PriceTicker(object):
             self.shutdown()
 
     def shutdown(self):
+        self.RUNNING = False
         logging.info("shutting down")
         self.epd.sleep()
 
@@ -98,7 +100,7 @@ class PriceTicker(object):
 
         sec = 0
         price = 'N/A'
-        while (True):
+        while (self.RUNNING):
             logging.info(sec)
             if(sec % 60 == 0):
                 logging.info('getting new price data')
