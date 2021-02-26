@@ -72,7 +72,7 @@ class PriceTicker(object):
             font_file_name = 'UbuntuBoldItalic-Rg86.ttf'
             font_file = os.path.join(DIR_MEDIA, font_file_name)
             FONT_SIZE_IN_POINTS = 48 # 48 points = 64 pixels
-            font = ImageFont.truetype(font_file, FONT_SIZE_IN_POINTS)
+            return ImageFont.truetype(font_file, FONT_SIZE_IN_POINTS)
         except IOError as e:
             logging.error(e)    
 
