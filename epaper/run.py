@@ -34,8 +34,8 @@ try:
 
     frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame
     image = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122_b.bmp'))
-    i_width, i_height = image.size
-    margin_left = int((WIDTH - width) / 2)
+    image_width, image_height = image.size
+    margin_left = int((WIDTH - image_width) / 2)
     frame.paste(image, (margin_left,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
