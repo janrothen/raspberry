@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import os, sys
+import signal
+
 from BitcoinPriceClient import BitcoinPriceClient
 from PriceTicker import PriceTicker
 
