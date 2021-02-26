@@ -84,6 +84,7 @@ class PriceTicker(object):
         try:
             font = self.load_font()
             logging.info(font)
+            logging.info(font.size)
             FONT_SIZE = int(math.ceil(48 * 1.333)) # points * 1+1/3 = pixels
             logging.info(FONT_SIZE)
 
