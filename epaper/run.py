@@ -56,7 +56,7 @@ try:
     # read bmp file 
     logging.info("2.read bmp file...")
     #image = Image.open(os.path.join(DIR_MEDIA, '2in13.bmp'))
-    image = Image.open(os.path.join(DIR_MEDIA, 'bitcoin.bmp'))
+    image = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122.bmp'))
 
     epd.display(epd.getbuffer(image))
     time.sleep(2)
@@ -65,7 +65,7 @@ try:
     logging.info("3.read bmp file on window...")
     # epd.Clear(0xFF)
     image1 = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
-    bmp = Image.open(os.path.join(DIR_MEDIA, 'bitcoin.bmp'))
+    bmp = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122.bmp'))
     image1.paste(bmp, (2,2))    
     epd.display(epd.getbuffer(image1))
     time.sleep(2)
