@@ -47,11 +47,11 @@ try:
     FONT_SIZE = 64
     font = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), FONT_SIZE)
     
-    frame = Image.new('1', (WIDTH, HEIGHT), 255)  # 255: clear the frame    
+    frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame    
     price = ImageDraw.Draw(frame)
-    padding_top = (HEIGHT - FONT_SIZE) / 2
+    padding_top = int((HEIGHT - FONT_SIZE) / 2)
     logging.info(padding_top)
-    price.text((32, padding_top), u'$48''231', font = font, fill = 0)
+    price.text((32, padding_top), u'$48''231', font = font, fill = 1)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
     
