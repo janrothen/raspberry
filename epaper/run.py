@@ -23,7 +23,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 try:
-    logging.info("e-Paper")
+    logging.info("₿ e-Paper")
 
     logging.info("init & clear")
     epd = epd2in13_V2.EPD()
@@ -56,7 +56,7 @@ try:
     price = ImageDraw.Draw(frame)
     padding_top = int((HEIGHT - FONT_SIZE) / 2)
     logging.info(padding_top)
-    price.text((32, 32), u'$48''231', font = font, fill = 1)
+    price.text((16, 32), u'$48''231 / ₿', font = font, fill = 1)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
     
