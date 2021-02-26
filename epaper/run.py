@@ -27,7 +27,7 @@ try:
     logging.info("init & clear")
     epd = epd2in13_V2.EPD()
     epd.init(epd.FULL_UPDATE)
-    epd.Clear(0xFF)
+    #epd.Clear(0xFF)
     logging.info("init complete")
 
     frame = Image.new('1', (epd.height, epd.width), 0)  # 255: clear the frame
