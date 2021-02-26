@@ -97,7 +97,7 @@ class PriceTicker(object):
             while (True):
                 logging.info(sec)
                 if(sec % 60 == 0):
-                    logging.info('getting new price data)
+                    logging.info('getting new price data')
                     price = self.price_client.retrieve_price()
                     
                 #draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = 0)
@@ -114,7 +114,7 @@ class PriceTicker(object):
         except KeyboardInterrupt:
             logging.info("Goto Sleep...")
             self.epd.sleep()
-            
+
             logging.info("ctrl + c:")
             epd2in13_V2.epdconfig.module_exit()
             exit()
