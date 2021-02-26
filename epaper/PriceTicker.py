@@ -52,8 +52,11 @@ class PriceTicker(object):
             self.display_price()
         except KeyboardInterrupt:
             logging.info("ctrl + c:")
-            epd2in13_V2.epdconfig.module_exit()
+            self.exit()
             exit()
+
+    def exit(self):
+        epd2in13_V2.epdconfig.module_exit()
 
     def display_image(self):
         image = self.load_image()
@@ -103,7 +106,7 @@ class PriceTicker(object):
             if(sec % 60 == 0):
                 logging.info('getting new price data')
                 price = self.price_client.retrieve_price()
-                
+            
             #draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = 0)
             logging.info(price)
 
