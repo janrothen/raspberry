@@ -47,7 +47,7 @@ try:
     FONT_SIZE = 64
     font = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), FONT_SIZE)
     
-    frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame    
+    #frame = Image.new('1', (WIDTH, HEIGHT), 0)  # 255: clear the frame    
     price = ImageDraw.Draw(frame)
     padding_top = int((HEIGHT - FONT_SIZE) / 2)
     logging.info(padding_top)
