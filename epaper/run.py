@@ -22,12 +22,13 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 try:
-    logging.info("epd2in13_V2 Demo")
-    
+    logging.info("e-Paper")
+
+    logging.info("init & clear")    
     epd = epd2in13_V2.EPD()
-    logging.info("init and Clear")
     epd.init(epd.FULL_UPDATE)
     epd.Clear(0xFF)
+    logging.info("init complete")   
 
     # Drawing on the image
     font15 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 15)
@@ -54,7 +55,8 @@ try:
     
     # read bmp file 
     logging.info("2.read bmp file...")
-    image = Image.open(os.path.join(DIR_MEDIA, '2in13.bmp'))
+    #image = Image.open(os.path.join(DIR_MEDIA, '2in13.bmp'))
+    image = Image.open(os.path.join(DIR_MEDIA, 'bitcoin.bmp'))
     epd.display(epd.getbuffer(image))
     time.sleep(2)
     
