@@ -60,8 +60,8 @@ try:
     logging.info(padding_top)
 
     bitcoin_price_client = BitcoinPriceClient()
-    logging.info(bitcoin_price_client)
-    price_s = bitcoin_price_client.retrieve_price('USD')
+    #price_s = bitcoin_price_client.retrieve_price('USD')
+    price_s = '$99999.99'
     logging.info(price_s)
 
     price.text((8, 32), price_s, font = font, fill = 1)
