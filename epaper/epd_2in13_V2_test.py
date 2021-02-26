@@ -3,10 +3,8 @@
 import sys
 import os
 import logging
-picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'media')
-logging.info(picdir)
-libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
-logging.info(libdir)
+picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'epaper/media')
+libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'epaper/lib')
 if os.path.exists(libdir):
     sys.path.append(libdir)
 
@@ -19,6 +17,8 @@ import traceback
 logging.basicConfig(level=logging.DEBUG)
 
 try:
+    logging.info(picdir)
+    logging.info(lib)
     logging.info("epd2in13_V2 Demo")
     
     epd = epd2in13_V2.EPD()
