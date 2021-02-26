@@ -42,9 +42,9 @@ class PriceTicker(object):
 
     def start(self):
         try:
-            #self.display_image()
-            #self.wait()
-            #self.clear_display()
+            self.display_image()
+            self.wait()
+            self.clear_display()
             self.display_price()
         except Exception as ex:
             logging.error(ex)
