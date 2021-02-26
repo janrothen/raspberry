@@ -45,10 +45,15 @@ class PriceTicker(object):
         self.epd.Clear(0xFF)
 
     def run(self):
-        #self.display_image()
-        #self.wait()
-        #self.clear_display()
-        self.display_price()
+        try:
+            #self.display_image()
+            #self.wait()
+            #self.clear_display()
+            self.display_price()
+        except KeyboardInterrupt:
+            logging.info("ctrl + c:")
+            epd2in13_V2.epdconfig.module_exit()
+            exit()
 
     def display_image(self):
         image = self.load_image()
@@ -88,10 +93,10 @@ class PriceTicker(object):
             frame = self.create_frame()
             draw = ImageDraw.Draw(frame)
             
-            #self.epd.init(self.epd.FULL_UPDATE)
-            #self.epd.displayPartBaseImage(self.epd.getbuffer(image))
-            
+            self.epd.init(self.epd.FULL_UPDATE)
+            self.epd.displayPartBaseImage(self.epd.getbuffer(frame))
             self.epd.init(self.epd.PART_UPDATE)
+            
             sec = 0
             price = 'N/A'
             while (True):
@@ -109,12 +114,6 @@ class PriceTicker(object):
                 self.epd.displayPartial(self.epd.getbuffer(frame))
                 sec = sec + 1
                 time.sleep(1)
-            
 
-        except KeyboardInterrupt:
-            logging.info("Goto Sleep...")
-            self.epd.sleep()
-
-            logging.info("ctrl + c:")
-            epd2in13_V2.epdconfig.module_exit()
-            exit()
+                #logging.info("Goto Sleep...")
+                #self.epd.sleep()
