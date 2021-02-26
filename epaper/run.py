@@ -28,22 +28,26 @@ try:
     epd = epd2in13_V2.EPD()
     epd.init(epd.FULL_UPDATE)
     #epd.Clear(0xFF)
+    HEIGHT = epd.height
+    WIDTH = epd.width
     logging.info("init complete")
 
-    frame = Image.new('1', (epd.height, epd.width), 0)  # 255: clear the frame
+    frame = Image.new('1', (HEIGHT, WIDTH), 0)  # 255: clear the frame
     bitcoin = Image.open(os.path.join(DIR_MEDIA, 'bitcoin122x122_b.bmp'))
-    frame.paste(bitcoin, (64,0))    
+    margin_left = (WIDTH - 122) / 2
+    frame.paste(bitcoin, (margin_left,0))    
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
 
     epd.Clear(0xFF)
 
-    font64 = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), 64)
+    FONT_SIZE = 64
+    font = ImageFont.truetype(os.path.join(DIR_MEDIA, FONT), FONT_SIZE)
     
-    frame = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame    
+    frame = Image.new('1', (HEIGHT, WIDTH), 255)  # 255: clear the frame    
     price = ImageDraw.Draw(frame)
-    margin_top = (122-64)/2
-    price.text((32, margin_top), u'$48''231', font = font64, fill = 0)
+    margin_top = (HEIGHT - FONT_SIZE) / 2
+    price.text((32, margin_top), u'$48''231', font = font, fill = 0)
     epd.display(epd.getbuffer(frame))
     time.sleep(5)
     
@@ -59,7 +63,7 @@ try:
     num = 0
     while (True):
         time_draw.rectangle((32, 32, 220, 105), fill = 255)
-        time_draw.text((32, 32), time.strftime('%H:%M:%S'), font = font64, fill = 0)
+        time_draw.text((32, 32), time.strftime('%H:%M:%S'), font = font, fill = 0)
         epd.displayPartial(epd.getbuffer(time_image))
         num = num + 1
         if(num == 10):
