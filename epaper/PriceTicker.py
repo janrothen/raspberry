@@ -44,6 +44,12 @@ class PriceTicker(object):
         try:
             self.display_white()
             self.wait()
+            self.display_black()
+            self.wait()
+            self.display_white()
+            self.wait()
+            self.display_black()
+            self.wait()
             self.display_image()
             self.wait()
             self.clear_display()
@@ -73,10 +79,17 @@ class PriceTicker(object):
         self.epd.display(self.epd.getbuffer(frame))
  
     def display_white(self):
-        frame = self.create_frame()
+        frame = Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT), 255)
         draw = ImageDraw.Draw(frame)
         self.epd.init(self.epd.FULL_UPDATE)
         draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = WHITE)
+        self.epd.display(self.epd.getbuffer(frame))
+
+    def display_black(self):
+        frame = Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT), 0)
+        draw = ImageDraw.Draw(frame)
+        self.epd.init(self.epd.FULL_UPDATE)
+        draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
         self.epd.display(self.epd.getbuffer(frame))
 
     def display_price(self):
