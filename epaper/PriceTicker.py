@@ -77,7 +77,7 @@ class PriceTicker(object):
         draw = ImageDraw.Draw(frame)
         self.epd.init(self.epd.FULL_UPDATE)
         draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = WHITE)
-        self.epd.displayPartial(self.epd.getbuffer(frame))
+        self.epd.display(self.epd.getbuffer(frame))
 
     def display_price(self):
         font = self.load_font()
