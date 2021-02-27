@@ -81,16 +81,24 @@ class PriceTicker(object):
     def display_white(self):
         frame = Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT), 255)
         draw = ImageDraw.Draw(frame)
+
         self.epd.init(self.epd.FULL_UPDATE)
+        self.epd.displayPartBaseImage(self.epd.getbuffer(frame))
+        self.epd.init(self.epd.PART_UPDATE)
+
         draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = WHITE)
-        self.epd.display(self.epd.getbuffer(frame))
+        self.epd.displayPartial(self.epd.getbuffer(frame))
 
     def display_black(self):
         frame = Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT), 0)
         draw = ImageDraw.Draw(frame)
+
         self.epd.init(self.epd.FULL_UPDATE)
+        self.epd.displayPartBaseImage(self.epd.getbuffer(frame))
+        self.epd.init(self.epd.PART_UPDATE)
+
         draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-        self.epd.display(self.epd.getbuffer(frame))
+        self.epd.displayPartial(self.epd.getbuffer(frame))
 
     def display_price(self):
         font = self.load_font()
