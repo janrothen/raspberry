@@ -9,18 +9,16 @@ DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
 DIR_LIB = os.path.join(DIRECTORY, 'lib')
 DIR_MEDIA = os.path.join(DIRECTORY, 'media')
-
-WHITE = 255
-BLACK = 0
-
 if os.path.exists(DIR_LIB):
     sys.path.append(DIR_LIB)
 
 from lib import epd2in13_V2
-import time
-from PIL import Image,ImageDraw,ImageFont
-import traceback
+from PIL import Image, ImageDraw, ImageFont
+
 import logging
+
+WHITE = 255
+BLACK = 0
 
 class PriceTicker(object):
     def __init__(self, price_client):
@@ -36,6 +34,7 @@ class PriceTicker(object):
     def init_epd(self):
         self.epd = epd2in13_V2.EPD()
         self.epd.init(self.epd.FULL_UPDATE)
+        self.epd.Clear(0xFF)
 
         self.WIDTH = self.epd.height # 250 pixels
         self.HEIGHT = self.epd.width # 122 pixels
@@ -91,7 +90,8 @@ class PriceTicker(object):
                 price = self.price_client.retrieve_price()
 
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-                draw.text((8, 32), price, font = font, fill = WHITE)
+                draw.text((0, 32), price, font = font, fill = WHITE, align='center')
+                #draw.text((8, 32), price, font = font, fill = WHITE)
                 
                 draw.rectangle((0, 0, self.WIDTH, 2), fill = progress_bar_color)
                 progress_bar_color = WHITE if progress_bar_color == BLACK else BLACK                
@@ -104,7 +104,7 @@ class PriceTicker(object):
             sec = sec + increment
             time.sleep(increment)
             if sec >= price_refresh_interval_in_sec:
-                sec = 0 # reset sec ounter
+                sec = 0 # reset sec counter
 
             logging.info(sec)
 
