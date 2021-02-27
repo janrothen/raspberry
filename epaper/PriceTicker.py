@@ -3,6 +3,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+import time
 import math
 
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -41,6 +42,8 @@ class PriceTicker(object):
 
     def start(self):
         try:
+            self.display_white()
+            self.wait()
             self.display_image()
             self.wait()
             self.clear_display()
@@ -69,6 +72,13 @@ class PriceTicker(object):
         
         self.epd.display(self.epd.getbuffer(frame))
  
+    def display_white(self):
+        frame = self.create_frame()
+        draw = ImageDraw.Draw(frame)
+        self.epd.init(self.epd.FULL_UPDATE)
+        draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = WHITE)
+        self.epd.displayPartial(self.epd.getbuffer(frame))
+
     def display_price(self):
         font = self.load_font()
         font_size = int(math.ceil(font.size * 1.333)) # points * 1+1/3 = pixels
