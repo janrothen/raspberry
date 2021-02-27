@@ -44,16 +44,23 @@ class PriceTicker(object):
         try:
             self.display_white()
             self.wait()
+            self.clear_display()
+
             self.display_black()
-            self.wait()
-            self.display_white()
-            self.wait()
-            self.display_black()
-            self.wait()
-            self.display_image()
             self.wait()
             self.clear_display()
-            self.display_price()
+
+            self.display_white()
+            self.wait()
+            self.clear_display()
+
+            self.clear_display()
+            self.display_black()
+            #self.display_image()
+            #self.wait()
+            #self.clear_display()
+            #self.display_price()
+            self.shutdown()
         except Exception as ex:
             logging.error(ex)
             self.stop()
@@ -86,8 +93,13 @@ class PriceTicker(object):
         self.epd.displayPartBaseImage(self.epd.getbuffer(frame))
         self.epd.init(self.epd.PART_UPDATE)
 
-        draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = WHITE)
-        self.epd.displayPartial(self.epd.getbuffer(frame))
+        sec = 0
+        increment = 1
+        while (sec < 60):
+            draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = WHITE)                            
+            self.epd.displayPartial(self.epd.getbuffer(frame))
+            sec = sec + increment
+            time.sleep(increment)
 
     def display_black(self):
         frame = Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT), 0)
@@ -97,8 +109,13 @@ class PriceTicker(object):
         self.epd.displayPartBaseImage(self.epd.getbuffer(frame))
         self.epd.init(self.epd.PART_UPDATE)
 
-        draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-        self.epd.displayPartial(self.epd.getbuffer(frame))
+        sec = 0
+        increment = 1
+        while (sec < 60):
+            draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)                            
+            self.epd.displayPartial(self.epd.getbuffer(frame))
+            sec = sec + increment
+            time.sleep(increment)
 
     def display_price(self):
         font = self.load_font()
