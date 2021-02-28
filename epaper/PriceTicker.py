@@ -51,8 +51,8 @@ class PriceTicker(object):
             #self.wait()
             #self.clear_display()
 
-            self.display_image()
-            self.wait()
+            #self.display_image()
+            #self.wait()
             self.display_price()
         except Exception as ex:
             logging.error(ex)
@@ -174,9 +174,9 @@ class PriceTicker(object):
                 price = self.price_client.retrieve_price()
 
                 x = random.randint(0, 64)
-                x = 100
+                x = 110
                 y = random.randint(0, self.HEIGHT - font_size)
-                y = 60
+                y = 70
                 logging.info('x: {} y: {}'.format(x, y))
                 draw.text((x, y), price, font = font, fill = color_text, align='left')
 
