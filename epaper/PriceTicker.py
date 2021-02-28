@@ -176,7 +176,7 @@ class PriceTicker(object):
                 price = self.price_client.retrieve_price()
 
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-                draw.text((x, y), price, font = font, fill = WHITE, align='left')
+                draw.text((int(x), int(y)), price, font = font, fill = WHITE, align='left')
 
                 self.epd.display(self.epd.getbuffer(frame))
                 self.epd.sleep()
