@@ -117,7 +117,7 @@ class PriceTicker(object):
             sec = sec + increment
             time.sleep(increment)
 
-    def display_price(self):
+    def display_price_with_progress_bar(self):
         font = self.load_font()
         font_size = int(math.ceil(font.size * 1.333)) # points * 1+1/3 = pixels
 
@@ -149,6 +149,38 @@ class PriceTicker(object):
             
             self.epd.displayPartial(self.epd.getbuffer(frame))
 
+            sec = sec + increment
+            time.sleep(increment)
+            if sec >= price_refresh_interval_in_sec:
+                sec = 0 # reset sec counter
+
+            logging.info(sec)
+    
+    def display_price(self):
+        font = self.load_font()
+        font_size = int(math.ceil(font.size * 1.333)) # points * 1+1/3 = pixels
+
+        frame = self.create_frame()
+        draw = ImageDraw.Draw(frame)
+
+        self.clear_display()
+
+        sec = 0
+        increment = 1
+        price_refresh_interval_in_sec = 300
+        price = 'N/A'
+        while (self.RUNNING):
+            if sec % price_refresh_interval_in_sec == 0:
+                self.clear_display()
+
+                price = self.price_client.retrieve_price()
+
+                draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
+                draw.text((0, 0), price, font = font, fill = WHITE, align='center')
+
+                self.epd.display(self.epd.getbuffer(frame))
+                self.epd.sleep()
+            
             sec = sec + increment
             time.sleep(increment)
             if sec >= price_refresh_interval_in_sec:
