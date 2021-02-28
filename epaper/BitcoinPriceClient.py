@@ -25,10 +25,15 @@ class BitcoinPriceClient(object):
 
         price = data[self.currency]['last']
         symbol = data[self.currency]['symbol']
-        price_formatted = '{}{}'.format(symbol, price)
-        logging.info(price_formatted)
+        return self.format_price(price, symbol)
 
-        return price_formatted
+    def format_price(self, price, symbol):
+        price_without_cents = self.price_without_cents(price)
+        return '{}{}'.format(symbol, price_without_cents)
+
+    def price_without_cents(self, price):
+        separator = '.'
+        return price.split(separator, 1)[0]    
 
     def retrieve_data(self):
         try:

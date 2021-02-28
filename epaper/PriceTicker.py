@@ -174,7 +174,9 @@ class PriceTicker(object):
                 price = self.price_client.retrieve_price()
 
                 x = random.randint(0, 64)
+                x = 100
                 y = random.randint(0, self.HEIGHT - font_size)
+                y = 60
                 logging.info('x: {} y: {}'.format(x, y))
                 draw.text((x, y), price, font = font, fill = color_text, align='left')
 
