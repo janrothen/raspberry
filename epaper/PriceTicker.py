@@ -5,6 +5,7 @@ import sys
 import os
 import time
 import math
+from random import uniform
 
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -126,8 +127,13 @@ class PriceTicker(object):
         price_refresh_interval_in_sec = 60
         progress_bar_color = BLACK
         price = 'N/A'
-        while (self.RUNNING):
+        while (self.RUNNING):    
+            x, y = uniform(-180,180), uniform(-90, 90)
+            logging.info(x)
+            logging.info(y)
             if sec % price_refresh_interval_in_sec == 0:
+
+
                 price = self.price_client.retrieve_price()
 
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
