@@ -5,7 +5,7 @@ import sys
 import os
 import time
 import math
-from random import uniform
+from random
 
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -129,8 +129,6 @@ class PriceTicker(object):
         price = 'N/A'
         while (self.RUNNING):    
             if sec % price_refresh_interval_in_sec == 0:
-
-
                 price = self.price_client.retrieve_price()
 
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
@@ -166,17 +164,19 @@ class PriceTicker(object):
         price_refresh_interval_in_sec = 300
         price = 'N/A'
         while (self.RUNNING):
-            x, y = uniform(0,32), uniform(0, 32)
-            logging.info(x)
-            logging.info(y)
-
             if sec % price_refresh_interval_in_sec == 0:
                 self.clear_display()
 
+                color_bg = self.get_random_color()
+                draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = color_bg)
+
+                color_text = WHITE if color_bg == BLACK else BLACK
                 price = self.price_client.retrieve_price()
 
-                draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-                draw.text((int(x), int(y)), price, font = font, fill = WHITE, align='left')
+                x = random.randint(0, 64)
+                y = random.randint(0, height - font_size)
+                logging.info('x: %s y: %s', x, y)
+                draw.text((x, y), price, font = font, fill = color_text, align='left')
 
                 self.epd.display(self.epd.getbuffer(frame))
                 self.epd.sleep()
@@ -187,6 +187,10 @@ class PriceTicker(object):
                 sec = 0 # reset sec counter
 
             logging.info(sec)
+
+    def get_random_color(self):
+        r = random.randint(0, 1)
+        return WHITE if k == 1 else BLACK   
 
     def create_frame(self):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
