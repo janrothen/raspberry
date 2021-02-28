@@ -166,7 +166,7 @@ class PriceTicker(object):
         price_refresh_interval_in_sec = 300
         price = 'N/A'
         while (self.RUNNING):
-            x, y = uniform(-180,180), uniform(-90, 90)
+            x, y = uniform(0,32), uniform(0, 32)
             logging.info(x)
             logging.info(y)
 
@@ -176,7 +176,7 @@ class PriceTicker(object):
                 price = self.price_client.retrieve_price()
 
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
-                draw.text((0, 0), price, font = font, fill = WHITE, align='center')
+                draw.text((x, y), price, font = font, fill = WHITE, align='left')
 
                 self.epd.display(self.epd.getbuffer(frame))
                 self.epd.sleep()
