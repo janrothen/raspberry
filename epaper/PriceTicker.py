@@ -174,8 +174,8 @@ class PriceTicker(object):
                 price = self.price_client.retrieve_price()
 
                 x = random.randint(0, 64)
-                y = random.randint(0, height - font_size)
-                logging.info('x: %s y: %s', x, y)
+                y = random.randint(0, self.HEIGHT - font_size)
+                logging.info('x: {} y: {}'.format(x, y))
                 draw.text((x, y), price, font = font, fill = color_text, align='left')
 
                 self.epd.display(self.epd.getbuffer(frame))
@@ -190,7 +190,8 @@ class PriceTicker(object):
 
     def get_random_color(self):
         r = random.randint(0, 1)
-        return WHITE if k == 1 else BLACK   
+        logging.info('r: {}'.format(r))
+        return WHITE if r == 1 else BLACK   
 
     def create_frame(self):
         return Image.new(self.IMAGE_MODE, (self.WIDTH, self.HEIGHT))
