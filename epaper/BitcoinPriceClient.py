@@ -33,7 +33,7 @@ class BitcoinPriceClient(object):
 
     def price_without_cents(self, price):
         separator = '.'
-        return price.split(separator, 1)[0]    
+        return str(price).split(separator, 1)[0]
 
     def retrieve_data(self):
         try:
