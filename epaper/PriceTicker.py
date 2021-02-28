@@ -5,7 +5,7 @@ import sys
 import os
 import time
 import math
-from random
+import random
 
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
