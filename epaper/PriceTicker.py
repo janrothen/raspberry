@@ -128,9 +128,6 @@ class PriceTicker(object):
         progress_bar_color = BLACK
         price = 'N/A'
         while (self.RUNNING):    
-            x, y = uniform(-180,180), uniform(-90, 90)
-            logging.info(x)
-            logging.info(y)
             if sec % price_refresh_interval_in_sec == 0:
 
 
@@ -169,6 +166,10 @@ class PriceTicker(object):
         price_refresh_interval_in_sec = 300
         price = 'N/A'
         while (self.RUNNING):
+            x, y = uniform(-180,180), uniform(-90, 90)
+            logging.info(x)
+            logging.info(y)
+
             if sec % price_refresh_interval_in_sec == 0:
                 self.clear_display()
 
