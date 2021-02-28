@@ -173,10 +173,8 @@ class PriceTicker(object):
                 color_text = WHITE if color_bg == BLACK else BLACK
                 price = self.price_client.retrieve_price()
 
-                x = random.randint(0, 64)
-                x = 80
-                y = random.randint(0, self.HEIGHT - font_size)
-                y = 70
+                x = random.randint(0, 80)
+                y = random.randint(0, 70)
                 logging.info('x: {} y: {}'.format(x, y))
                 draw.text((x, y), price, font = font, fill = color_text, align='left')
 
