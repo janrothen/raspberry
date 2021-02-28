@@ -42,28 +42,21 @@ class PriceTicker(object):
 
     def start(self):
         try:
-            self.display_white()
-            self.wait()
-            self.clear_display()
-
-            self.display_black()
-            self.wait()
-            self.clear_display()
-
-            self.display_white()
-            self.wait()
-            self.clear_display()
-
-            self.clear_display()
-            self.display_black()
-            #self.display_image()
+            #self.display_white()
             #self.wait()
             #self.clear_display()
-            #self.display_price()
-            self.shutdown()
+
+            #self.display_black()
+            #self.wait()
+            #self.clear_display()
+
+            self.display_image()
+            self.wait()
+            self.display_price()
         except Exception as ex:
             logging.error(ex)
             self.stop()
+        self.stop()
     
     def stop(self):
         logging.info("shutting down")
