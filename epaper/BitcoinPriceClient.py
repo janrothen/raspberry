@@ -30,7 +30,7 @@ class BitcoinPriceClient(object):
     def format_price(self, price, symbol):
         price_without_cents = self.price_without_cents(price)
         price_in_k = price_without_cents / 1000
-        return '{:.1f}{}k'.format(symbol, price_in_k)
+        return '{}{:.1f}k'.format(symbol, price_in_k)
 
     def price_without_cents(self, price):
         separator = '.'
