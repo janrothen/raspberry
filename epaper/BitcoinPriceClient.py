@@ -29,11 +29,14 @@ class BitcoinPriceClient(object):
 
     def format_price(self, price, symbol):
         price_without_cents = self.price_without_cents(price)
-        return '{}{}'.format(symbol, price_without_cents)
+        price_in_k = price_without_cents / 1000
+        price_in_k_formatted = "{:.1f}".format(price_in_k)
+        return '{}{}'.format(symbol, price_in_k_formatted)
 
     def price_without_cents(self, price):
         separator = '.'
-        return str(price).split(separator, 1)[0]
+        price_without_cents = str(price).split(separator, 1)[0]
+        return float(price_without_cents)
 
     def retrieve_data(self):
         try:
