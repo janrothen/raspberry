@@ -23,8 +23,9 @@ WHITE = 255
 BLACK = 0
 
 class PriceTicker(object):
-    def __init__(self, price_client):
+    def __init__(self, price_client, price_extractor):
         self.price_client = price_client
+        self.price_extractor = price_extractor
 
         self.WIDTH = 0
         self.HEIGHT = 0
@@ -40,6 +41,10 @@ class PriceTicker(object):
 
         self.WIDTH = self.epd.height # 250 pixels
         self.HEIGHT = self.epd.width # 122 pixels
+
+    def get_price(self):
+        data = self.price_client.retrieve_data()
+        return self.price_extractor.formatted_price_from_data(data)
 
     def start(self):
         try:
@@ -129,7 +134,7 @@ class PriceTicker(object):
         price = 'N/A'
         while (self.RUNNING):    
             if sec % price_refresh_interval_in_sec == 0:
-                price = self.price_client.retrieve_price()
+                price = self.get_price()
 
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = BLACK)
                 draw.text((0, 32), price, font = font, fill = WHITE, align='center')
@@ -171,7 +176,7 @@ class PriceTicker(object):
                 draw.rectangle((0, 0, self.WIDTH, self.HEIGHT), fill = color_bg)
 
                 color_text = WHITE if color_bg == BLACK else BLACK
-                price = self.price_client.retrieve_price()
+                price = self.get_price()
 
                 x = random.randint(0, 80)
                 y = random.randint(0, 70)

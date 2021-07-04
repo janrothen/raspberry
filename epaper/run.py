@@ -5,6 +5,7 @@ import signal
 import logging
 
 from BitcoinPriceClient import BitcoinPriceClient
+from PriceExtractor import PriceExtractor
 from PriceTicker import PriceTicker
 
 logging.basicConfig(level=logging.DEBUG)
@@ -23,8 +24,9 @@ class GracefulKiller:
         self.ticker.stop()
 
 if __name__ == '__main__':
-    price_client = BitcoinPriceClient('USD')    
-    price_ticker = PriceTicker(price_client)
+    price_client = BitcoinPriceClient()
+    price_extractor = PriceExtractor('USD', '$')
+    price_ticker = PriceTicker(price_client, price_extractor)
 
     killer = GracefulKiller(price_ticker)
 
