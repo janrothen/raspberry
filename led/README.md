@@ -14,12 +14,10 @@ python-dateutil==2.7.3
 
 Create symlink to utils in this directory, or imports wont work  
 Configure the scripts: `config.conf`
-https://abyz.me.uk/rpi/pigpio/download.html
+
 
 ```
-sudo apt-get install build-essential unzip wget  
-PiGPIO can be downloaded and installed via the command chain  
-wget http://abyz.co.uk/rpi/pigpio/pigpio.zip && unzip pigpio.zip && cd PIGPIO && sudo make install  
+https://abyz.me.uk/rpi/pigpio/download.html
 ```
   ## Timers
 
