@@ -12,7 +12,7 @@ python-dateutil==2.7.3
 ```
 ## Installing
 
-Create symlink to utils in this directory, or imports won't work  
+Create symlink to utils in this directory, or imports won't work.
 Configure the scripts: `config.conf`
 
 Follow the pigpio installation instructions:
@@ -26,7 +26,7 @@ or
 
 Copy `led.service` to `/etc/systemd/system`  
 
-Create and file in `/etc/cron.d/led` to start/stop systemd service  
+Create a file in `/etc/cron.d/led` to start/stop the systemd service . 
 ```
 /etc/cron.d $ cat led  
 15 19 * * * root /bin/systemctl start led 2>/tmp/error  
