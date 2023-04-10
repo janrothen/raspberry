@@ -22,7 +22,7 @@ https://abyz.me.uk/rpi/pigpio/download.html
 or
 `sudo apt-get install pigpio`
 
-  ## Timers
+## Timers
 
 Copy `led.service` to `/etc/systemd/system`  
 
@@ -34,4 +34,19 @@ Create and file in `/etc/cron.d/led` to start/stop systemd service
 
 15 06 * * * root /bin/systemctl start led 2>/tmp/error  
 30 08 * * * root /bin/systemctl stop led 2>/tmp/error
+```
+
+### Status
+```
+pi@zero:~ $ systemctl status led.service
+● led.service - LED Service
+     Loaded: loaded (/etc/systemd/system/led.service; disabled; vendor preset: enabled)
+     Active: active (running) since Mon 2023-04-10 13:19:34 CEST; 24s ago
+   Main PID: 18876 (python3)
+      Tasks: 3 (limit: 415)
+        CPU: 14.115s
+     CGroup: /system.slice/led.service
+             ├─18876 /usr/bin/python3 -u led.py
+             ├─21052 sh -c pigs p 17 3
+             └─21053 pigs p 17 3
 ```
