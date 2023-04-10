@@ -19,6 +19,9 @@ Follow the pigpio installation instructions:
 ```
 https://abyz.me.uk/rpi/pigpio/download.html
 ```
+or
+`sudo apt-get install pigpio`
+
   ## Timers
 
 Copy `led.service` to `/etc/systemd/system`  
