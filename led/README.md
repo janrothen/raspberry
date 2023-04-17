@@ -3,6 +3,7 @@
 ### led.py
 Switches LED bar on according the time of the day and
 with the color specified in config.conf
+https://danidudas.medium.com/how-to-connect-rgb-strip-led-lights-to-raspberry-pi-zero-w-and-control-from-node-js-70ddfec19f0b
 
 ## Prerequisites
 ```
@@ -24,15 +25,15 @@ or
 
 ## Timers
 
-Copy `led.service` to `/etc/systemd/system`  
+Copy `led.service` to `/etc/systemd/system`
 
-Create a file in `/etc/cron.d/led` to start/stop the systemd service . 
+Create a file in `/etc/cron.d/led` to start/stop the systemd service.
 ```
 /etc/cron.d $ cat led  
-15 19 * * * root /bin/systemctl start led 2>/tmp/error  
+15 19 * * * root /bin/systemctl start led 2>/tmp/error
 30 22 * * * root /bin/systemctl stop led 2>/tmp/error
 
-15 06 * * * root /bin/systemctl start led 2>/tmp/error  
+15 06 * * * root /bin/systemctl start led 2>/tmp/error
 30 08 * * * root /bin/systemctl stop led 2>/tmp/error
 ```
 
