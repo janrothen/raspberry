@@ -3,6 +3,7 @@
 ### led.py
 Switches LED bar on according the time of the day and
 with the color specified in config.conf
+
 https://danidudas.medium.com/how-to-connect-rgb-strip-led-lights-to-raspberry-pi-zero-w-and-control-from-node-js-70ddfec19f0b
 
 ## Prerequisites
