@@ -44,9 +44,8 @@ class FrameRenderer:
         bg = random.choice([BLACK, WHITE])
         fg = WHITE if bg == BLACK else BLACK
 
-        frame = Image.new("1", (self._width, self._height))
+        frame = Image.new("1", (self._width, self._height), color=bg)
         draw = ImageDraw.Draw(frame)
-        draw.rectangle((0, 0, self._width, self._height), fill=bg)
 
         x = self._width // 2
         y = self._height // 2
