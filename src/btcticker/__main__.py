@@ -47,8 +47,8 @@ def main() -> None:
         while not shutdown.should_stop:
             ticker.tick()
             sd_notify("WATCHDOG=1")
-    except Exception as ex:
-        logging.exception(ex)
+    except Exception:
+        logging.exception("ticker crashed")
         sys.exit(1)
     finally:
         ticker.stop()
