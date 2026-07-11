@@ -21,6 +21,13 @@ class TestPriceExtractor(unittest.TestCase):
         self.assertEqual(self.extractor.format_price(50000), "$50k")
         self.assertEqual(self.extractor.format_price(1000), "$1k")
 
+    def test_format_price_truncates_exactly_despite_float_representation(self):
+        # Regression: truncating via float math dropped the last digit for
+        # values like 1130 (1.13 * 100 -> 112.999... -> "$1.12k").
+        self.assertEqual(self.extractor.format_price(1130), "$1.13k")
+        self.assertEqual(self.extractor.format_price(2010), "$2.01k")
+        self.assertEqual(self.extractor.format_price(1_130_000), "$1.13M")
+
     def test_format_price_below_thousand(self):
         self.assertEqual(self.extractor.format_price(999), "$999")
         self.assertEqual(self.extractor.format_price(123.45), "$123")
