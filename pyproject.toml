@@ -43,6 +43,7 @@ addopts = "--cov=src/btcticker --cov-report=term-missing --cov-report=xml --cov-
 
 [tool.coverage.run]
 relative_files = true
+omit = ["src/btcticker/lib/*"]  # vendored Waveshare drivers, excluded like in ruff
 
 [tool.ruff]
 target-version = "py313"
