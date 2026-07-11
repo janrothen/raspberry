@@ -1,7 +1,5 @@
 import math
 
-type PriceData = dict | None
-
 _MILLION = 1_000_000
 _THOUSAND = 1_000
 
@@ -11,7 +9,7 @@ class PriceExtractor:
         self.currency = currency
         self.symbol = symbol
 
-    def formatted_price_from_data(self, data: PriceData) -> str:
+    def formatted_price_from_data(self, data: dict | None) -> str:
         if not data:
             return "N/A"
         currency_data = data.get(self.currency)
