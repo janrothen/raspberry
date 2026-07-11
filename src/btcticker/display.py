@@ -23,15 +23,15 @@ def _load_epd_driver():
        the duration of the fallback import to redirect the stale lookup,
        and restore it immediately afterwards.
     """
-    if _LIB_DIR.exists():
-        sys.path.insert(0, str(_LIB_DIR))
-
     try:
         from waveshare_epd import epd2in13_V2
 
         return epd2in13_V2
     except ModuleNotFoundError:
         pass
+
+    if _LIB_DIR.exists():
+        sys.path.insert(0, str(_LIB_DIR))
 
     real_exists = os.path.exists
 
