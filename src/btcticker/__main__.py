@@ -22,7 +22,10 @@ logging.basicConfig(level=logging.INFO)
 
 
 def main() -> None:
-    cfg = config().get("bitcoin", {}).get("price", {})
+    # Index strictly: a missing [bitcoin.price] table or service_endpoint is a
+    # configuration error, and the KeyError should name the missing key
+    # instead of surfacing later against an empty dict.
+    cfg = config()["bitcoin"]["price"]
     currency = cfg.get("currency", "USD")
     symbol = cfg.get("symbol", "$")
     refresh_interval = cfg.get("refresh_interval", 300)
