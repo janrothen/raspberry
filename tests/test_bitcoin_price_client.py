@@ -72,6 +72,20 @@ class TestBitcoinPriceClientErrorHandling(unittest.TestCase):
             self._run_with_error(json.JSONDecodeError("bad", "not valid {", 0))
         )
 
+    def test_non_dict_json_returns_none_without_retrying(self):
+        # A list/string/number payload is valid JSON but the wrong shape;
+        # it must not reach the extractor (AttributeError on .get) and
+        # retrying won't change it.
+        for payload in ([], "maintenance", 42):
+            with self.subTest(payload=payload):
+                client, mock_http = _make_client(return_value=payload)
+                with patch(
+                    "btcticker.price.bitcoin_price_client.time.sleep"
+                ) as mock_sleep:
+                    self.assertIsNone(client.retrieve_data())
+                self.assertEqual(mock_http.get_json.call_count, 1)
+                mock_sleep.assert_not_called()
+
 
 class TestBitcoinPriceClientRetry(unittest.TestCase):
     def test_succeeds_on_first_attempt_without_retrying(self):

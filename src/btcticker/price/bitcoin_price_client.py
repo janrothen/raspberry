@@ -36,7 +36,17 @@ class BitcoinPriceClient:
         """
         for attempt in range(1, self._max_retries + 1):
             try:
-                return self._http.get_json(self._endpoint)
+                data = self._http.get_json(self._endpoint)
+                if not isinstance(data, dict):
+                    # Valid JSON but not the expected shape ({"USD": {...}});
+                    # retrying won't help, route into the "N/A" path instead
+                    # of crashing on data.get() downstream.
+                    logging.warning(
+                        "Price endpoint returned unexpected payload type: %s",
+                        type(data).__name__,
+                    )
+                    return None
+                return data
             except (
                 HttpError,
                 requests.RequestException,
