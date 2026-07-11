@@ -6,6 +6,11 @@ import requests
 
 from btcticker.http_client import HttpClient, HttpError
 
+# Worst-case fetch time is MAX_RETRIES * HTTP timeout plus the retry delays
+# (~40s with these defaults and http_client.DEFAULT_TIMEOUT). Keep it well
+# under WatchdogSec=60 in deploy/systemd/btcticker.service: the main loop
+# only pets the watchdog between ticks, so a fetch that outlasts it gets the
+# service killed mid-request.
 MAX_RETRIES = 3
 RETRY_DELAY = 5  # seconds between attempts
 
