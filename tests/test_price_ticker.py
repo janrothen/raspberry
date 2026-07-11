@@ -139,6 +139,45 @@ class TestPriceTickerRefreshTiming(unittest.TestCase):
         self._run_tick([t2, t2])
         self.assertEqual(self.mock_display.show.call_count, 2)
 
+    def test_failed_fetch_repolls_after_shorter_retry_interval(self):
+        from btcticker.price_ticker import FAILED_REFRESH_RETRY_SECONDS
+
+        self.mock_client.retrieve_data.return_value = None
+        t1 = 9999.0
+        self._run_tick([t1, t1])
+        self.assertEqual(self.mock_display.show.call_count, 1)
+
+        # Still within the failure retry window: no refresh.
+        self._run_tick([t1 + FAILED_REFRESH_RETRY_SECONDS - 1])
+        self.assertEqual(self.mock_display.show.call_count, 1)
+
+        # Past the retry window (well before the full interval): refresh.
+        t2 = t1 + FAILED_REFRESH_RETRY_SECONDS
+        self._run_tick([t2, t2])
+        self.assertEqual(self.mock_display.show.call_count, 2)
+
+    def test_successful_fetch_after_failure_restores_full_interval(self):
+        from btcticker.price_ticker import (
+            DEFAULT_REFRESH_INTERVAL,
+            FAILED_REFRESH_RETRY_SECONDS,
+        )
+
+        self.mock_client.retrieve_data.return_value = None
+        t1 = 9999.0
+        self._run_tick([t1, t1])
+
+        self.mock_client.retrieve_data.return_value = {"USD": {"last": 50000}}
+        t2 = t1 + FAILED_REFRESH_RETRY_SECONDS
+        self._run_tick([t2, t2])
+        self.assertEqual(self.mock_display.show.call_count, 2)
+
+        # Back on the full interval after the successful refresh.
+        self._run_tick([t2 + DEFAULT_REFRESH_INTERVAL - 1])
+        self.assertEqual(self.mock_display.show.call_count, 2)
+        t3 = t2 + DEFAULT_REFRESH_INTERVAL
+        self._run_tick([t3, t3])
+        self.assertEqual(self.mock_display.show.call_count, 3)
+
 
 class TestPriceTickerRefreshFlow(unittest.TestCase):
     def setUp(self) -> None:
