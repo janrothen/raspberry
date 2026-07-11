@@ -2,6 +2,8 @@ import json
 
 import requests
 
+# Raising this affects the worst-case fetch time bounded by the systemd
+# watchdog; see the retry constants in price/bitcoin_price_client.py.
 DEFAULT_TIMEOUT = 10  # seconds
 
 
