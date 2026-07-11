@@ -6,6 +6,7 @@ from btcticker.frame_renderer import FrameRenderer
 from btcticker.price.protocols import PriceFormatter, PriceSource
 
 DEFAULT_REFRESH_INTERVAL = 300  # seconds
+FAILED_REFRESH_RETRY_SECONDS = 60  # re-poll sooner while showing "N/A"
 INTRO_PAUSE_SECONDS = 3
 IDLE_SLEEP_SECONDS = 1
 
@@ -30,6 +31,7 @@ class PriceTicker:
         self.price_client = price_client
         self.price_extractor = price_extractor
         self._refresh_interval = refresh_interval
+        self._next_interval = refresh_interval
         self._started = False
         self._stopped = False
         self._last_refresh = float("-inf")  # guarantees refresh on first tick()
@@ -47,19 +49,25 @@ class PriceTicker:
 
     def tick(self) -> None:
         """Run one iteration of the price refresh loop. Call repeatedly from main."""
-        if time.monotonic() - self._last_refresh < self._refresh_interval:
+        if time.monotonic() - self._last_refresh < self._next_interval:
             time.sleep(IDLE_SLEEP_SECONDS)
             return
 
-        price = self.price_extractor.formatted_price_from_data(
-            self.price_client.retrieve_data()
-        )
+        data = self.price_client.retrieve_data()
+        price = self.price_extractor.formatted_price_from_data(data)
         frame = self.renderer.render_price(price)
 
         self.display.init()
         self.display.show(frame)
         self.display.sleep()
         self._last_refresh = time.monotonic()
+        # After a failed fetch, retry sooner so "N/A" doesn't linger for the
+        # full refresh interval once connectivity returns.
+        self._next_interval = (
+            self._refresh_interval
+            if data is not None
+            else min(self._refresh_interval, FAILED_REFRESH_RETRY_SECONDS)
+        )
 
     def stop(self) -> None:
         if self._stopped:
