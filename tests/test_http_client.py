@@ -120,33 +120,6 @@ class TestHttpClientTimeout(unittest.TestCase):
                 "http://example.com", timeout=DEFAULT_TIMEOUT
             )
 
-    def test_post_passes_default_timeout(self):
-        with patch(
-            "btcticker.http_client.requests.post", return_value=self._mock_response()
-        ) as mock_post:
-            HttpClient().post("http://example.com")
-            mock_post.assert_called_once_with(
-                "http://example.com", json=None, timeout=DEFAULT_TIMEOUT
-            )
-
-    def test_put_passes_default_timeout(self):
-        with patch(
-            "btcticker.http_client.requests.put", return_value=self._mock_response()
-        ) as mock_put:
-            HttpClient().put("http://example.com")
-            mock_put.assert_called_once_with(
-                "http://example.com", json=None, timeout=DEFAULT_TIMEOUT
-            )
-
-    def test_delete_passes_default_timeout(self):
-        with patch(
-            "btcticker.http_client.requests.delete", return_value=self._mock_response()
-        ) as mock_delete:
-            HttpClient().delete("http://example.com")
-            mock_delete.assert_called_once_with(
-                "http://example.com", timeout=DEFAULT_TIMEOUT
-            )
-
     def test_custom_timeout_is_used(self):
         with patch(
             "btcticker.http_client.requests.get", return_value=self._mock_response()

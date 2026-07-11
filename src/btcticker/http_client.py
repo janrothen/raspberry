@@ -30,15 +30,6 @@ class HttpClient:
         """
         return json.loads(self.get(url))
 
-    def post(self, url: str, json_data: object | None = None) -> str:
-        return self._check(requests.post(url, json=json_data, timeout=self.timeout))
-
-    def put(self, url: str, json_data: object | None = None) -> str:
-        return self._check(requests.put(url, json=json_data, timeout=self.timeout))
-
-    def delete(self, url: str) -> str:
-        return self._check(requests.delete(url, timeout=self.timeout))
-
     def _check(self, r: requests.Response) -> str:
         if not (200 <= r.status_code < 300):
             raise HttpError(r.status_code, r.text)
